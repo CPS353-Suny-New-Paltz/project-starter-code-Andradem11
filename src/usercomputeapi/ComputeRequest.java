@@ -5,11 +5,11 @@ public class ComputeRequest {
 	private final String delimiter;
 	
 	public ComputeRequest(DataSource source, String delimiter) {
-		this.source=source;
-		if(delimiter==null || delimiter.isBlank()) {
-			this.delimiter=";";
+		this.source = source;
+		if(delimiter == null || delimiter.isBlank()) {
+			this.delimiter = ";";
 		}else {
-			this.delimiter=delimiter;
+			this.delimiter = delimiter;
 		}
 	}
 	

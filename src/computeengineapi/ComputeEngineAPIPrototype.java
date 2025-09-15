@@ -1,22 +1,12 @@
 package computeengineapi;
 import project.annotations.ConceptualAPIPrototype;
-
-
-import java.util.*;
+import java.util.List;
 
 public class ComputeEngineAPIPrototype {
 	@ConceptualAPIPrototype
-	public void prototype(ComputeEngineAPI compute) {
-//		single input example
-		int n=10;
-		int result=compute.computeSumOfPrimes(n);
-		System.out.println("Sum of prime "+n+" = "+ result);
+	public void prototype(ComputeEngineAPI compute, List<Integer> num) {
+		int sum= compute.computeSum(num);
+		System.out.println("Computed sum: "+sum);
 		
-//		multi-input example
-		List<Integer> inputs= new ArrayList<>();
-		inputs.add(10);
-		inputs.add(15);
-		List<Integer> results= compute.computeMulti(inputs);
-		System.out.println("Multi-input results: " + results);
 	}
 }

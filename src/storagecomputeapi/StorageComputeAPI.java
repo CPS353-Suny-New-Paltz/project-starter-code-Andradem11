@@ -9,7 +9,5 @@ public interface StorageComputeAPI {
 	
 	
 //	writes output format to storage
-	void writeOutput(String output);
-	
-
+	void writeOutput(List<Integer> data);
 }

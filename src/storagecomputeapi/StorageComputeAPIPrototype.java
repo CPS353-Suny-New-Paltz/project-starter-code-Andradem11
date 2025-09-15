@@ -1,5 +1,6 @@
 package storagecomputeapi;
-import java.util.*;
+import java.util.List;
+
 import project.annotations.ProcessAPIPrototype;
 
 
@@ -9,12 +10,8 @@ public class StorageComputeAPIPrototype {
 	public void prototype(StorageComputeAPI storage) {
 //		reads input numbers 
 		List<Integer> input= storage.readInput();
-		System.out.println("Input: "+ input);
 		
 //		writes the output
-		storage.writeOutput("Sum of primes of "+ input.get(0)+"= (prime sum)");
-		
+		storage.writeOutput(input);	
 	}
-	
-
 }

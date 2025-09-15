@@ -9,7 +9,7 @@ public class StorageComputeAPIPrototype {
 	@ProcessAPIPrototype
 	public void prototype(StorageComputeAPI storage) {
 //		reads input numbers 
-		List<Integer> input= storage.readInput();
+		List<Integer> input = storage.readInput();
 		
 //		writes the output
 		storage.writeOutput(input);	

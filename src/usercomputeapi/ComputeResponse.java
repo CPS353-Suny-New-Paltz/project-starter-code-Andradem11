@@ -1,19 +1,30 @@
 package usercomputeapi;
 
 public class ComputeResponse {
-	private final int sum;
-	private final boolean success;
+	public enum Status{
+//		status if computation worked or failed
+		SUCCESS,
+		FAIL
+	}
 	
-	public ComputeResponse(int sum, boolean success) {
+//	sum of primes
+	private final int sum;
+	private final Status status;
+	
+	public ComputeResponse(int sum, Status status) {
 		this.sum = sum;
-		this.success = success;
+		this.status = status;
 	}
 	
 	public int getSum() {
 		return sum;
 	}
 	
+	public Status getStatus() {
+		return status;
+	}
+	
 	public boolean isSuccess() {
-		return success;
+		return status == Status.SUCCESS;
 	}
 }

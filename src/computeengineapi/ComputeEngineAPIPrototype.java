@@ -1,13 +1,20 @@
 package computeengineapi;
 import project.annotations.ConceptualAPIPrototype;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ComputeEngineAPIPrototype {
 	
 	@ConceptualAPIPrototype
-	public void prototype(ComputeEngineAPI compute, List<Integer> num) {
+	public List<Integer> prototype(ComputeEngineAPI compute, List<Integer> num) {
+//		call engine to get the sum
 		int sum = compute.computeSum(num);
-		System.out.println("Computed sum: " + sum);
 		
+//		store sum and sent it to storage/output
+		List<Integer> results = new ArrayList<>();
+		results.add(sum);
+		
+//		return the list of results
+		return results;
 	}
 }

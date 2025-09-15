@@ -1,6 +1,7 @@
 package usercomputeapi;
 
 public class ComputeRequest {
+//	get input and delimiters for result
 	private final DataSource source;
 	private final String delimiter;
 	

@@ -1,4 +1,4 @@
-package userComputeAPI;
+package usercomputeapi;
 import project.annotations.NetworkAPIPrototype;
 
 public class UserComputeAPIPrototype {

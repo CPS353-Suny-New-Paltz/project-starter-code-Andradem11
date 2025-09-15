@@ -1,4 +1,4 @@
-package storageComputeAPI;
+package storagecomputeapi;
 import java.util.*;
 import project.annotations.ProcessAPIPrototype;
 

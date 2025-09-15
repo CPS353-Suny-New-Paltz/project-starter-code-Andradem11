@@ -6,9 +6,9 @@ public class ComputeRequest {
 	
 	public ComputeRequest(DataSource source, String delimiter) {
 		this.source = source;
-		if(delimiter == null || delimiter.isBlank()) {
+		if (delimiter == null || delimiter.isBlank()) {
 			this.delimiter = ";";
-		}else {
+		} else {
 			this.delimiter = delimiter;
 		}
 	}

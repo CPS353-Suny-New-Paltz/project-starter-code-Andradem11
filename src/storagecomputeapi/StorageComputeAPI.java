@@ -4,6 +4,7 @@ import java.util.List;
 
 @ProcessAPI
 public interface StorageComputeAPI {
+	
 //	reads integers from storage
 	List<Integer> readInput();
 	

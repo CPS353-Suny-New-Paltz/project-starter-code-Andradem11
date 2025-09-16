@@ -9,9 +9,9 @@ public class UserComputeAPIPrototype {
 	@NetworkAPIPrototype
 	 public List<Integer> prototype(UserComputeAPI user) {
 //		variables (input and output)
-		DataSource source= null;
+		DataSource source = null;
 		String delimiter = ";";
-		OutputSource output= null;
+		OutputSource output = null;
 
 //	     request form compute engine
 	     ComputeRequest request = new ComputeRequest(source, delimiter);
@@ -21,7 +21,7 @@ public class UserComputeAPIPrototype {
 	    	 
 	     }
 //	     store sum in a list
-	     List<Integer> results=new ArrayList<>();
+	     List<Integer> results = new ArrayList<>();
 	     if(response != null && response.isSuccess()) {
 	    	 results.add(response.getSum());
 	     } else {

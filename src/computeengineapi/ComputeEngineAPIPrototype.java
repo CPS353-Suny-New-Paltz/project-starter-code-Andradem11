@@ -17,7 +17,7 @@ public class ComputeEngineAPIPrototype {
 		
 		
 //		store the sum and returns it
-		List<Integer> results=new ArrayList<>();
+		List<Integer> results = new ArrayList<>();
 		results.add(sum);
 		
 		return results;

@@ -17,7 +17,7 @@ public class StorageComputeAPIPrototype {
 		ComputeEngineAPI compute = null;
 		
 //		compute sum
-		int sum=10;
+		int sum = 10;
 		
 //		store result
 		List<Integer> output = new ArrayList<>();

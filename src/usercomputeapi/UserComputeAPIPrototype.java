@@ -8,6 +8,8 @@ import project.annotations.NetworkAPIPrototype;
 public class UserComputeAPIPrototype {
 	@NetworkAPIPrototype
 	 public List<Integer> prototype(UserComputeAPI user) {
+		UserComputeAPI userApi = user;
+		
 //		variables (input and output)
 		DataSource source = null;
 		String delimiter = ";";

@@ -11,7 +11,7 @@ public class StorageComputeAPIPrototype {
 	@ProcessAPIPrototype
 	public void prototype(StorageComputeAPI storage) {
 		StorageComputeAPI storageEngine = storage;
-		
+    
 //		reads input numbers from storage
 		List<Integer> input = storage.readInput();
 		

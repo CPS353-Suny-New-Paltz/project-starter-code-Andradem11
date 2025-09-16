@@ -14,24 +14,22 @@ public class UserComputeAPIPrototype {
 		DataSource source = null;
 		String delimiter = ";";
 		OutputSource output = null;
-
-//	     request form compute engine
-	     ComputeRequest request = new ComputeRequest(source, delimiter);
-	     ComputeResponse response = null;
-	     if (user != null ) {
-	    	 response=user.computeSumOfPrimes(request);
-	    	 
-	     }
-//	     store sum in a list
-	     List<Integer> results = new ArrayList<>();
-	     if(response != null && response.isSuccess()) {
-	    	 results.add(response.getSum());
-	     } else {
-	    	 
-//	    	 error message if failed
-	    	 System.out.println("Compute failed. ");
-	     }
-	     return results;
-	}
-     
+		
+//		request form compute engine
+		ComputeRequest request = new ComputeRequest(source, delimiter);
+		ComputeResponse response = null;
+		if (user != null ) {
+			response=user.computeSumOfPrimes(request);
+		}
+//		store sum in a list
+	    List<Integer> results = new ArrayList<>();
+	    if(response != null && response.isSuccess()) {
+	    	results.add(response.getSum());
+	    } else {
+	    	
+//	    error message if failed
+	    	System.out.println("Compute failed. ");
+	    }
+	    return results;
+	} 
 }

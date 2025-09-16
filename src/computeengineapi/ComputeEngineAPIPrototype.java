@@ -6,15 +6,20 @@ import java.util.List;
 public class ComputeEngineAPIPrototype {
 	
 	@ConceptualAPIPrototype
-	public List<Integer> prototype(ComputeEngineAPI compute, List<Integer> num) {
-//		call engine to get the sum
+	public List<Integer> prototype(ComputeEngineAPI compute) {		
+//		store input
+		List<Integer> num = new ArrayList<>();
+//		example of input
+		num.add(10);
+		
+//		calls engine to get input
 		int sum = compute.computeSum(num);
 		
-//		store sum and sent it to storage/output
-		List<Integer> results = new ArrayList<>();
+		
+//		store the sum and returns it
+		List<Integer> results=new ArrayList<>();
 		results.add(sum);
 		
-//		return the list of results
 		return results;
 	}
 }

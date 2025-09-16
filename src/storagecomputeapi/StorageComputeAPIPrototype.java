@@ -9,12 +9,15 @@ import project.annotations.ProcessAPIPrototype;
 public class StorageComputeAPIPrototype {
 	
 	@ProcessAPIPrototype
-	public void prototype(StorageComputeAPI storage, ComputeEngineAPI compute) {
+	public void prototype(StorageComputeAPI storage) {
 //		reads input numbers from storage
 		List<Integer> input = storage.readInput();
 		
-//		compute the sum of primes
-		int sum = compute.computeSum(input);
+//		compute engine
+		ComputeEngineAPI compute = null;
+		
+//		compute sum
+		int sum=10;
 		
 //		store result
 		List<Integer> output = new ArrayList<>();

@@ -7,22 +7,23 @@ import project.annotations.NetworkAPIPrototype;
 
 public class UserComputeAPIPrototype {
 	@NetworkAPIPrototype
-	 public List<Integer> prototype(UserComputeAPI userComputeApi, DataSource source, String delimiter, OutputSource output) {
-	     if (delimiter == null || delimiter.isBlank()) {
-	         delimiter = ";";
-	     }
+	 public List<Integer> prototype(UserComputeAPI user) {
+//		variables (input and output)
+		DataSource source= null;
+		String delimiter = ";";
+		OutputSource output= null;
 
 //	     request form compute engine
 	     ComputeRequest request = new ComputeRequest(source, delimiter);
-	     ComputeResponse response = userComputeApi.computeSumOfPrimes(request);
-
-//	     store sum 
-	     List<Integer> results=new ArrayList<>();
-	     if(response.isSuccess()) {
-	    	 results.add(response.getSum());
+	     ComputeResponse response = null;
+	     if (user != null ) {
+	    	 response=user.computeSumOfPrimes(request);
 	    	 
-//	    	 writes result to the output
-	    	 output.write(results);
+	     }
+//	     store sum in a list
+	     List<Integer> results=new ArrayList<>();
+	     if(response != null && response.isSuccess()) {
+	    	 results.add(response.getSum());
 	     } else {
 	    	 
 //	    	 error message if failed

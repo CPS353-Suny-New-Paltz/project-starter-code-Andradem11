@@ -6,7 +6,8 @@ import java.util.List;
 public class ComputeEngineAPIPrototype {
 	
 	@ConceptualAPIPrototype
-	public List<Integer> prototype(ComputeEngineAPI compute) {		
+	public List<Integer> prototype(ComputeEngineAPI compute) {	
+		ComputeEngineAPI engine = compute;
 //		store input
 		List<Integer> num = new ArrayList<>();
 //		example of input

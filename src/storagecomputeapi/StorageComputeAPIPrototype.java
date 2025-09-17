@@ -10,11 +10,11 @@ public class StorageComputeAPIPrototype {
 	
 	@ProcessAPIPrototype
 	public void prototype(StorageComputeAPI storage) {
-//		reads input numbers from storage
-		List<Integer> input = storage.readInput();
+//		reference to API
+		StorageComputeAPI api = storage;
 		
-//		compute engine
-		ComputeEngineAPI compute = null;
+//		reads input numbers from storage
+		List<Integer> input = api.readInput();
 		
 //		compute sum
 		int sum=10;

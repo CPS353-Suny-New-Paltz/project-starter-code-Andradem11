@@ -9,7 +9,7 @@ import project.annotations.ProcessAPIPrototype;
 public class StorageComputeAPIPrototype {
 	
 	@ProcessAPIPrototype
-	public void prototype(StorageComputeAPI storage) {
+	public StorageResponse prototype(StorageComputeAPI storage) {
 //		reference to API
 		StorageComputeAPI api = storage;
 		
@@ -24,6 +24,6 @@ public class StorageComputeAPIPrototype {
 		output.add(sum); 
 		
 //		writes the output to storage
-		storage.writeOutput(output);	
+		return storage.writeOutput(output);	
 	}
 }

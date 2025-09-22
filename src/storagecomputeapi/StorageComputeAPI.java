@@ -10,5 +10,5 @@ public interface StorageComputeAPI {
 	
 	
 //	writes output format to storage
-	void writeOutput(List<Integer> data);
+	StorageResponse writeOutput(List<Integer> data);
 }

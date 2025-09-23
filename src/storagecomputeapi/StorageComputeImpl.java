@@ -12,6 +12,6 @@ public class StorageComputeImpl implements StorageComputeAPI {
 	@Override
 	public StorageResponse writeOutput(List<Integer> data) {
 //		return default fail
-		return new StorageResponse(StorageResponse.Status.Fail, "Not implemented yet");	
+		return new StorageResponse(StorageResponse.Status.FAIL, "Not implemented yet");	
 	}
 }

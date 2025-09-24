@@ -10,10 +10,10 @@ import computeengineapi.ComputeEngineAPI;
 import computeengineapi.ComputeEngineImpl;
 
 
-public class testComputeEngineIntegration {
+public class TestComputeEngineIntegration {
 	
 	@Test
-	public void TestComputeEngine() {
+	public void testComputeEngine() {
 //		create input and output
 		TestInput input = new TestInput(Arrays.asList(1, 10, 25));
 		TestOutput output = new TestOutput();

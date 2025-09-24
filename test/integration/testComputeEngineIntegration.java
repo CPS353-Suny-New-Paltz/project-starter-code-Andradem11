@@ -1,4 +1,5 @@
 package integration;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,8 +9,10 @@ import java.util.List;
 import computeengineapi.ComputeEngineAPI;
 import computeengineapi.ComputeEngineImpl;
 
-public class TestComputeEngineIntegration {
+
+public class testComputeEngineIntegration {
 	
+	@Test
 	public void TestComputeEngine() {
 //		create input and output
 		TestInput input = new TestInput(Arrays.asList(1, 10, 25));

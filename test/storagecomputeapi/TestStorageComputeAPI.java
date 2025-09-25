@@ -1,10 +1,12 @@
 package storagecomputeapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,6 +29,13 @@ public class TestStorageComputeAPI {
 		prototype.prototype(mockStorage);
 		
 		assertEquals(1,1);	
+	}
+	@Test
+	public void smokeTestStorageComputeReal() {
+	    StorageComputeAPI realStorage = new StorageComputeImpl();
+	    List<Integer> input = realStorage.readInput(); 
+	    StorageResponse response = realStorage.writeOutput(List.of(1,2,3));
+	    assertTrue(response.getStatus() == StorageResponse.Status.FAIL);
 	}
 
 

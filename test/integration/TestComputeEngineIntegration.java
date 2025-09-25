@@ -28,4 +28,3 @@ public class TestComputeEngineIntegration {
 	    assertEquals(input.size(), dataStore.getTestOutput().size());
 	}
 }
-

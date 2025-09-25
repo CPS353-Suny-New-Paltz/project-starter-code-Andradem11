@@ -1,6 +1,7 @@
 package integration;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
@@ -11,15 +12,17 @@ import usercomputeapi.ComputeRequest;
 import usercomputeapi.ComputeResponse;
 import usercomputeapi.UserComputeAPI;
 import usercomputeapi.UserComputeImpl;
+import storagecomputeapi.StorageComputeAPI;
 
 
 public class TestComputeEngineIntegration {
 	
 	@Test
 	public void testComputeEngine() {
-		 TestStorageComputeAPIImpl dataStore = new TestStorageComputeAPIImpl();
-	     ComputeEngineAPI engine = new ComputeEngineImpl();
-	     UserComputeAPI user = new UserComputeImpl();
+		StorageComputeAPI dataStore = new TestStorageComputeAPIImpl(); 
+        ComputeEngineAPI engine = new ComputeEngineImpl();
+        UserComputeAPI user = new UserComputeImpl();
+
 
 	     ComputeRequest request = new ComputeRequest(null, ";");
 	     ComputeResponse response = user.computeSumOfPrimes(request);

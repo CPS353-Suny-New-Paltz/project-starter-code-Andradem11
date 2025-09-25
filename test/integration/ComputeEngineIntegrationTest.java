@@ -18,7 +18,7 @@ public class ComputeEngineIntegrationTest {
 
     @Test
     public void testComputeEngine() {
-//    	inpput and output
+//    	input and output
     	TestInput input = new TestInput(Arrays.asList(1, 10, 25));
         TestOutput output = new TestOutput();
         TestDataStore dataStore = new TestDataStore(input, output);

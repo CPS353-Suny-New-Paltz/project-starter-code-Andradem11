@@ -1,43 +1,35 @@
-package storagecomputeapi;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+package usercomputeapi;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class TestStorageComputeAPI {
+public class TestUserComputeAPI {
 	@Test
-	public void smokeTestStorageCompute() {	
+	public void smokeTestUserCompute() {
 //		create mock of API
-		StorageComputeAPI mockStorage = Mockito.mock(StorageComputeAPI.class);
+		UserComputeAPI mockUser = Mockito.mock(UserComputeAPI.class);
+//		when computeSumOfPrimes called, print fail
+		when(mockUser.computeSumOfPrimes(any())).thenReturn(new ComputeResponse(0, ComputeResponse.Status.FAIL));
 		
-//		when readInput call, print 1, 2
-		when(mockStorage.readInput()).thenReturn(Arrays.asList(1, 2));
+//		run prototype
+		UserComputeAPIPrototype prototype = new UserComputeAPIPrototype();
+		List<Integer> result = prototype.prototype(mockUser);
 		
-//		when writeOutput call, print success
-		when(mockStorage.writeOutput(any()))
-		.thenReturn(new StorageResponse(StorageResponse.Status.SUCCESS, "MOCKED WRITE"));
-		
-//		run the Prototype
-		StorageComputeAPIPrototype prototype = new StorageComputeAPIPrototype();
-		prototype.prototype(mockStorage);
-		
-		assertEquals(1,1);	
+		assertTrue(result.isEmpty());
 	}
 	@Test
-	public void smokeTestStorageComputeReal() {
-	    StorageComputeAPI realStorage = new StorageComputeImpl();
-	    List<Integer> input = realStorage.readInput(); 
-	    StorageResponse response = realStorage.writeOutput(List.of(1,2,3));
-	    assertTrue(response.getStatus() == StorageResponse.Status.FAIL);
-	}
-
+    public void smokeTestUserComputeReal() {
+        UserComputeAPI realUser = new UserComputeImpl();
+        ComputeRequest request = new ComputeRequest(null, ";");
+        ComputeResponse response = realUser.computeSumOfPrimes(request);
+        assertTrue(response.getStatus() == ComputeResponse.Status.FAIL);
+    }
 
 }
+
 

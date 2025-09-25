@@ -2,7 +2,11 @@ package integration;
 
 import computeengineapi.ComputeEngineAPI;
 import computeengineapi.ComputeEngineImpl;
-import usercomputeapi.*;
+import usercomputeapi.ComputeRequest;
+import usercomputeapi.ComputeResponse;
+import usercomputeapi.DataSource;
+import usercomputeapi.UserComputeAPI;
+import usercomputeapi.UserComputeImpl;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

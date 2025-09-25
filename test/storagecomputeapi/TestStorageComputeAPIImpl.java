@@ -10,7 +10,7 @@ public class TestStorageComputeAPIImpl implements StorageComputeAPI{
 	 
 	 @Override
 	 public List<Integer> readInput() {
-		 return testInput;
+		 return new ArrayList<>(testInput);
 	 }
 	 
 	 @Override

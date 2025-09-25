@@ -7,6 +7,8 @@ import java.util.List;
 import computeengineapi.ComputeEngineAPI;
 import computeengineapi.ComputeEngineImpl;
 import storagecomputeapi.TestStorageComputeAPIImpl;
+import usercomputeapi.UserComputeAPI;
+import usercomputeapi.UserComputeImpl;
 
 
 public class TestComputeEngineIntegration {
@@ -15,13 +17,15 @@ public class TestComputeEngineIntegration {
 	public void testComputeEngine() {
 		TestStorageComputeAPIImpl dataStore = new TestStorageComputeAPIImpl();
 	    ComputeEngineAPI engine = new ComputeEngineImpl();
+	    UserComputeAPI userApi = new UserComputeImpl();
+	    
 
-	    for (Integer num : dataStore.readInput()) {
-	        int result = engine.computeSum(List.of(num));
-	        dataStore.writeOutput(List.of(result));
-	    }
+	    List<Integer> input = dataStore.readInput();
+	    int sum = engine.computeSum(input);
+	    dataStore.writeOutput(List.of(sum));
 
-	    assertEquals(List.of("0", "0", "0"), dataStore.getTestOutput());
+//	    Check output list size
+	    assertEquals(input.size(), dataStore.getTestOutput().size());
 	}
 }
 

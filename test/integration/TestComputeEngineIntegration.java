@@ -24,3 +24,4 @@ public class TestComputeEngineIntegration {
 	    assertEquals(List.of("0", "0", "0"), dataStore.getTestOutput());
 	}
 }
+

@@ -17,7 +17,6 @@ public class TestComputeEngineIntegration {
 
     @Test
     public void testComputeEngine() {
-        // assign test implementation to interface type
         StorageComputeAPI storage = new TestStorageComputeAPIImpl();
         ComputeEngineAPI engine = new ComputeEngineImpl();
         UserComputeAPI user = new UserComputeImpl();

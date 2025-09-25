@@ -22,5 +22,12 @@ public class TestUserComputeAPI {
 		
 		assertTrue(result.isEmpty());
 	}
+	@Test
+    public void smokeTestUserComputeReal() {
+        UserComputeAPI realUser = new UserComputeImpl();
+        ComputeRequest request = new ComputeRequest(null, ";");
+        ComputeResponse response = realUser.computeSumOfPrimes(request);
+        assertTrue(response.getStatus() == ComputeResponse.Status.FAIL);
+    }
 
 }

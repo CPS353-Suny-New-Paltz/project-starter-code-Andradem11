@@ -20,16 +20,22 @@ public class TestComputeEngineIntegration {
 		 TestStorageComputeAPIImpl dataStore = new TestStorageComputeAPIImpl();
 	     ComputeEngineAPI engine = new ComputeEngineImpl();
 	     UserComputeAPI user = new UserComputeImpl();
-
-	     ComputeRequest request = new ComputeRequest(null, ";");
+	     
+	     for (Integer num : dataStore.readInput()) {
+	    	 int result = engine.computeSum(List.of(num));
+	    	 dataStore.writeOutput(List.of(result));
+	     }
+	        
+	     usercomputeapi.DataSource source = new usercomputeapi.DataSource() {       
+	    	 @Override      
+	    	 public int getLimit() {	                
+	    		 return 100;	            
+	    	 }	        
+	     };	        
+	     ComputeRequest request = new ComputeRequest(source, ";");	
 	     ComputeResponse response = user.computeSumOfPrimes(request);
-
-	        for (Integer num : dataStore.readInput()) {
-	            int result = engine.computeSum(List.of(num));
-	            dataStore.writeOutput(List.of(result));
-	        }
-
-	    assertEquals(List.of("0", "0", "0"), dataStore.getTestOutput());
+	     assertEquals(List.of("0", "0", "0"), dataStore.getTestOutput());
+	
 	}
 }
 

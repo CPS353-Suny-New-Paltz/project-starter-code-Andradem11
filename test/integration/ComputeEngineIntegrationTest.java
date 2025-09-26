@@ -19,7 +19,7 @@ public class ComputeEngineIntegrationTest {
 	    // Setup test input and output
 	    TestInput input = new TestInput(Arrays.asList(1, 10, 25));
 	    TestOutput output = new TestOutput();
-	    StorageComputeAPI dataStore = new TestDataStore(input, output); // now implements StorageComputeAPI
+	    StorageComputeAPI dataStore = new TestDataStore(input, output); 
 
 	    // Real implementations
 	    ComputeEngineAPI computeEngine = new ComputeEngineImpl();
@@ -28,7 +28,7 @@ public class ComputeEngineIntegrationTest {
 	    // Simulate compute flow
 	    for (Integer i : dataStore.readInput()) {
 	        int result = computeEngine.computeSum(List.of(i));
-	        dataStore.writeOutput(List.of(result)); // now uses StorageComputeAPI method
+	        dataStore.writeOutput(List.of(result));
 	    }
 
 	    List<String> expected = Arrays.asList("0", "0", "0");

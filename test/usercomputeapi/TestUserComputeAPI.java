@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 
 import storagecomputeapi.StorageComputeAPI;
 import storagecomputeapi.StorageComputeImpl;
-
 public class TestUserComputeAPI {
 	@Test
 	public void smokeTestUserCompute() {

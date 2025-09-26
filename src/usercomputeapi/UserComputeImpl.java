@@ -42,4 +42,3 @@ public class UserComputeImpl implements UserComputeAPI {
 		return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);
 	}
 }
-

@@ -8,9 +8,6 @@ public class StorageComputeImpl implements StorageComputeAPI {
 
 	@Override
 	public List<Integer> readInput() {
-		if (storeData.isEmpty()) {
-			return null;
-		}
 		return new ArrayList<>(storeData);
 	}
 	@Override
@@ -24,4 +21,3 @@ public class StorageComputeImpl implements StorageComputeAPI {
 
 	}
 }
-

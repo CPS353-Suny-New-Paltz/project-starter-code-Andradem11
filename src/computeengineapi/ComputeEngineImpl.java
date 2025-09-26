@@ -4,16 +4,16 @@ import java.util.List;
 public class ComputeEngineImpl implements ComputeEngineAPI{
 	@Override
 	public int computeSum(List<Integer> num) {
+		if(num == null || num.isEmpty()) {
+			return 0;
+		}
 //		sum of prime numbers
 		int totalSum = 0;
-		for(int n : num) {
-//			call isPrime method
-			for(int i = 2; i <= n; i++) {
-				if(isPrime(i)) {
-					totalSum += i;
+		for(int n : num) {	
+			if(isPrime(n)) {
+					totalSum += n;
 				}
 			}
-		}
 		return totalSum;
 	}
 	private boolean isPrime(int n) {
@@ -22,7 +22,7 @@ public class ComputeEngineImpl implements ComputeEngineAPI{
 			return false;
 		}
 //		if n has a remainder is prime
-		for (int i = 2; i<=Math.sqrt(n); i++) {
+		for (int i = 2; i<= Math.sqrt(n); i++) {
 			if (n % i == 0) {
 				return false;
 			}

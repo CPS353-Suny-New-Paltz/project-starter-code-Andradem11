@@ -1,4 +1,4 @@
-package integration;
+package integrationtest;
 import java.util.List;
 
 public class TestInput {

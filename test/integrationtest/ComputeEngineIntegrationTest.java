@@ -1,4 +1,4 @@
-package integration;
+package integrationtest;
 
 import computeengineapi.ComputeEngineAPI;
 import storagecomputeapi.StorageComputeAPI;

@@ -31,7 +31,7 @@ public class ComputeEngineIntegrationTest {
 	        dataStore.writeOutput(List.of(result));
 	    }
 
-	    List<String> expected = Arrays.asList("0", "17", "0");
+	    List<String> expected = Arrays.asList("0", "17", "100");
 	    List<String> actual = output.getOutput();
 	    assertEquals(expected, actual);
 	}

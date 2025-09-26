@@ -28,7 +28,7 @@ public class TestUserComputeAPI {
 	@Test
     public void smokeTestUserComputeReal() {
 		StorageComputeAPI storage = new StorageComputeImpl();
-        UserComputeAPI realUser = new UserComputeImpl();
+        UserComputeAPI realUser = new UserComputeImpl(storage);
         ComputeRequest request = new ComputeRequest(null, ";");
         ComputeResponse response = realUser.computeSumOfPrimes(request);
         assertTrue(response.getStatus() == ComputeResponse.Status.FAIL);

@@ -2,25 +2,28 @@ package integration;
 
 import java.util.List;
 
-public class TestDataStore {
-	private final TestInput input;
-	private final TestOutput output;
-	
-	public TestDataStore(TestInput input, TestOutput output) {
-		this.input = input;
-		this.output = output;
-	}
-	
-//	read integers from input
-	public List<Integer> readInput(){
-		return input.getInput();
-	}
-	
-//	writes string result (output)
-	public void writeOut(List<String> results) {
-		for(String s : results) {
-			output.write(s);
-		}
-	}
+import storagecomputeapi.StorageComputeAPI;
+import storagecomputeapi.StorageResponse;
 
+public class TestDataStore implements StorageComputeAPI {
+    private final TestInput input;
+    private final TestOutput output;
+
+    public TestDataStore(TestInput input, TestOutput output) {
+        this.input = input;
+        this.output = output;
+    }
+
+    @Override
+    public List<Integer> readInput() {
+        return input.getInput();
+    }
+
+    @Override
+    public StorageResponse writeOutput(List<Integer> data) {
+        for (Integer i : data) {
+            output.write(String.valueOf(i));
+        }
+        return new StorageResponse(StorageResponse.Status.SUCCESS, "Written to test output");
+    }
 }

@@ -10,7 +10,6 @@ import usercomputeapi.UserComputeImpl;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,36 +17,26 @@ public class ComputeEngineIntegrationTest {
 
     @Test
     public void testIntegration() {
-//      Create input/output
-        TestInput input = new TestInput(Arrays.asList(1, 10, 25));
-        TestOutput output = new TestOutput();
-        TestDataStore dataStore = new TestDataStore(input, output);
+//      ProcessAPI implementation
+        TestStorageComputeAPIImpl dataStore = new TestStorageComputeAPIImpl(Arrays.asList(1, 10, 25));
 
-//      Use empty engine implementation
+//      ConceptualAPI
         ComputeEngineAPI computeEngine = new ComputeEngineImpl();
 
-//      Use UserComputeImpl
+//      NetworkAPI
         UserComputeAPI userCompute = new UserComputeImpl();
 
-        DataSource source = new DataSource() {
-            @Override
-            public int getLimit() {
-                return 100;
-            }
-        };
+//      DataSource for ComputeRequest
+        DataSource source = () -> 100;
+        ComputeRequest request = new ComputeRequest(source, null);
 
-        ComputeRequest request = new ComputeRequest(source, null); 
-
-//      Call compute engine
-        ComputeResponse response = userCompute.computeSumOfPrimes(request);
-
-        
-        for (Integer i : input.getInput()) {
+//      compute engine through input
+        for (Integer i : dataStore.readInput()) {
             int result = computeEngine.computeSum(List.of(i));
-            output.write(String.valueOf(result));
+            dataStore.writeOutput(List.of(result));
         }
 
         List<String> expected = List.of("0", "0", "0");
-        assertEquals(expected, output.getOutput());
+        assertEquals(expected, dataStore.getTestOutput());
     }
 }

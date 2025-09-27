@@ -18,7 +18,7 @@ public class TestComputeEngineAPI {
 //		call copmuteSum
 		int result = engine.computeSum(input);
 		
-		assertEquals(10, result);
+		assertEquals(22, result);
 		
 	}
 

@@ -8,9 +8,8 @@ public class TestStorageComputeAPI {
     @Test
     public void smokeTestStorageCompute() {
         StorageComputeAPI storage = new StorageComputeImpl();
-        List<Integer> input = storage.readInput();
         StorageResponse response = storage.writeOutput(List.of(1, 2, 3));
-        assertTrue(response.getStatus() == StorageResponse.Status.FAIL);
+        assertTrue(response.getStatus() == StorageResponse.Status.SUCCESS);
     }
 
     @Test

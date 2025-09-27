@@ -21,5 +21,16 @@ public class TestComputeEngineAPI {
 		assertEquals(22, result);
 		
 	}
+	
+	@Test
+	public void TestInvalidInput() {
+		ComputeEngineAPI engine = new ComputeEngineImpl();
+		
+		List<Integer> input = Arrays.asList(-1, -10, -25);
+		int result = engine.computeSum(input);
+		
+		assertEquals(0, result, "No numbers less than 2 should be counted");
+	}
+	
 
 }

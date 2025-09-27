@@ -23,7 +23,7 @@ public class TestComputeEngineAPI {
 	}
 	
 	@Test
-	public void TestInvalidInput() {
+	public void testInvalidInput() {
 		ComputeEngineAPI engine = new ComputeEngineImpl();
 		
 		List<Integer> input = Arrays.asList(-1, -10, -25);

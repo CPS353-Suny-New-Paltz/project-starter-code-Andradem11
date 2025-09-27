@@ -23,7 +23,7 @@ public class ComputeEngineIntegrationTest {
 
 	    // Real implementations
 	    ComputeEngineAPI computeEngine = new ComputeEngineImpl();
-	    UserComputeAPI userCompute = new UserComputeImpl(dataStore);
+	    UserComputeAPI userCompute = new UserComputeImpl(dataStore, computeEngine);
 
 	    // Simulate compute flow
 	    for (Integer i : dataStore.readInput()) {
@@ -33,6 +33,6 @@ public class ComputeEngineIntegrationTest {
 
 	    List<String> expected = Arrays.asList("0", "17", "100");
 	    List<String> actual = output.getOutput();
-	    assertEquals(expected, actual);
+	    assertEquals(expected, actual,"Sum of primes match expected values");
 	}
 }

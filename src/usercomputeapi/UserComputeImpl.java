@@ -9,9 +9,11 @@ import storagecomputeapi.StorageResponse;
 
 public class UserComputeImpl implements UserComputeAPI {
 	private final StorageComputeAPI storage;
+	private final ComputeEngineAPI engine;
 
-	public UserComputeImpl(StorageComputeAPI storage) {
+	public UserComputeImpl(StorageComputeAPI storage, ComputeEngineAPI engine) {
 		this.storage = storage;
+		this.engine = engine;
 	}
 
 	@Override
@@ -29,8 +31,7 @@ public class UserComputeImpl implements UserComputeAPI {
 		}
 
 //		Pass the integers to the compute component
-		ComputeEngineAPI computeEngine = new ComputeEngineImpl();
-		int sum = computeEngine.computeSum(inputNum);
+		int sum = engine.computeSum(inputNum);
 
 //		write result to storage
 		StorageResponse response = storage.writeOutput(List.of(sum));

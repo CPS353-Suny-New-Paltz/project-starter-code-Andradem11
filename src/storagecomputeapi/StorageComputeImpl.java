@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StorageComputeImpl implements StorageComputeAPI {
+	private final List<Integer> storeData = new ArrayList<>();
+
 	@Override
 	public List<Integer> readInput() {
-//		return an empty list
-		return new ArrayList<>();
+		return new ArrayList<>(storeData);
 	}
 	@Override
 	public StorageResponse writeOutput(List<Integer> data) {
-//		return default fail
-		return new StorageResponse(StorageResponse.Status.FAIL, "Not implemented yet");	
+		if(data == null || data.isEmpty()) {
+			return new StorageResponse(StorageResponse.Status.FAIL, "No data to write");
+		}
+		storeData.clear();
+		storeData.addAll(data);
+		return new StorageResponse(StorageResponse.Status.SUCCESS, "Data written successfully");
+
 	}
 }

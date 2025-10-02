@@ -28,19 +28,19 @@ public class ManualTestingFramework {
     	
 //      TODO 2: Run a computation with an input 
     	List<Integer> input = new ArrayList<>();
-    	try(BufferedReader reader = new BufferedReader(new FileReader(INPUT))) {
-    		String line = reader.readLine();
-    		while ((line != null)) {
-    			 String data = line.trim(); 
-    			 if(!data.isEmpty()) {
-    				 input.add(Integer.parseInt(data));
-    			 }
-    		}
-    		
-    	}catch (IOException e) {
-    		e.printStackTrace();
-    		
-    	}
+        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT))) {
+            String line = reader.readLine();
+            while (line != null) {
+                String data = line.trim();
+                if (!data.isEmpty()) {
+                    input.add(Integer.parseInt(data));
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
     	
     	List<Integer> result = new ArrayList<>();
     	for( Integer n : input) {

@@ -3,9 +3,6 @@ package integration;
 import computeengineapi.ComputeEngineAPI;
 import storagecomputeapi.StorageComputeAPI;
 import computeengineapi.ComputeEngineImpl;
-import usercomputeapi.UserComputeAPI;
-import usercomputeapi.UserComputeImpl;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

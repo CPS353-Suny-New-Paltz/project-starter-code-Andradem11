@@ -12,23 +12,28 @@ public class UserComputeAPIPrototype {
 		UserComputeAPI api = user;
 		
 //		variables (input and output)
-		DataSource source = () -> 10;
+		DataSource source = new DataSource() {
+            @Override
+            public int getLimit() {
+                return 10;
+            }
+        };
+        
 		String delimiter = ";";
 
-//	     request form compute engine
-	     ComputeRequest request = new ComputeRequest(source, delimiter);
-	     ComputeResponse response = api.computeSumOfPrimes(request);
+//	    request form compute engine
+	    ComputeRequest request = new ComputeRequest(source, delimiter);
+	    ComputeResponse response = api.computeSumOfPrimes(request);
 	     
-//	     store sum in a list
-	     List<Integer> results = new ArrayList<>();
-	     if(response != null && response.isSuccess()) {
-	    	 results.add(response.getSum());
-	     } else {
+//	    store sum in a list
+	    List<Integer> results = new ArrayList<>();
+	    if(response != null && response.isSuccess()) {
+	    	results.add(response.getSum());
+	    } else {
 	    	 
-//	    	 error message if failed
-	    	 System.out.println("Compute failed. ");
-	     }
-	     return results;
-	}
-     
+//	    error message if failed
+	    	System.out.println("Compute failed. ");
+	    }
+	    return results;
+	}   
 }

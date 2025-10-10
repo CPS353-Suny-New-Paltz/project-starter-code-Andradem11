@@ -1,8 +1,14 @@
 package integration;
 
 import computeengineapi.ComputeEngineAPI;
-import storagecomputeapi.StorageComputeAPI;
 import computeengineapi.ComputeEngineImpl;
+import storagecomputeapi.StorageComputeAPI;
+import usercomputeapi.UserComputeAPI;
+import usercomputeapi.UserComputeImpl;
+import usercomputeapi.ComputeRequest;
+import usercomputeapi.ComputeResponse;
+import usercomputeapi.DataSource;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,17 +19,28 @@ public class ComputeEngineIntegrationTest {
 
 	@Test
 	public void testIntegration() {
-	    // Setup test input and output
+//	    Setup test input and output
 	    TestInput input = new TestInput(Arrays.asList(1, 10, 25));
 	    TestOutput output = new TestOutput();
 	    StorageComputeAPI dataStore = new TestDataStore(input, output); 
 
-	    // Real implementations
+//	    Real implementations
 	    ComputeEngineAPI computeEngine = new ComputeEngineImpl();
-	    // Simulate compute flow
-	    for (Integer number : input.getInput()) {
-	    	 int sum = computeEngine.computeSum(number);
-	        dataStore.writeOutput(List.of(sum), null);
+	    UserComputeAPI userCompute = new UserComputeImpl(dataStore, computeEngine);
+	    
+	    for (final Integer number : input.getInput()) {
+	        DataSource source = new DataSource() {
+	            @Override
+	            public int getLimit() {
+	                return number;
+	            }
+	        };
+	        ComputeRequest request = new ComputeRequest(source, ";");
+	        ComputeResponse response = userCompute.computeSumOfPrimes(request);
+
+	        if (response.isSuccess()) {
+	            dataStore.writeOutput(List.of(response.getSum()), null);
+	        }
 	    }
 
 	    List<String> expected = Arrays.asList("0", "17", "100");

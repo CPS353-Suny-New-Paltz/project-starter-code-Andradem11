@@ -25,6 +25,4 @@ public class StorageResponse {
     public boolean isSuccess() {
         return status == Status.SUCCESS;
     }
-
-
 }

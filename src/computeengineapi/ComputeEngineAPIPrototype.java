@@ -8,15 +8,13 @@ public class ComputeEngineAPIPrototype {
 	@ConceptualAPIPrototype
 	public List<Integer> prototype(ComputeEngineAPI compute) {
 //		reference to API
-		ComputeEngineAPI api = compute;
+		ComputeEngineAPI engine = compute;
 		
-//		store input
-		List<Integer> num = new ArrayList<>();
 //		example of input
-		num.add(10);
+		int input = 10;
 		
 //		calls engine to get input
-		int sum = api.computeSum(num);
+		int sum = engine.computeSum(input);
 		
     
 //		store the sum and returns it

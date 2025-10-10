@@ -2,7 +2,6 @@ package storagecomputeapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import computeengineapi.ComputeEngineAPI;
 import project.annotations.ProcessAPIPrototype;
 
 
@@ -14,7 +13,7 @@ public class StorageComputeAPIPrototype {
 		StorageComputeAPI api = storage;
 		
 //		reads input numbers from storage
-		List<Integer> input = api.readInput();
+		List<Integer> input = api.readInput(null);
 		
 //		compute sum
 		int sum=10;
@@ -24,6 +23,6 @@ public class StorageComputeAPIPrototype {
 		output.add(sum); 
 		
 //		writes the output to storage
-		return storage.writeOutput(output);	
+		return storage.writeOutput(output, null);	
 	}
 }

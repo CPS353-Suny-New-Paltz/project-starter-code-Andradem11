@@ -21,6 +21,4 @@ public class ComputeRequest {
 	public String getDelimiter() {
 		return delimiter;
 	}
-	
-
 }

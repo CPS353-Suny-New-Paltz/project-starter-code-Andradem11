@@ -1,9 +1,10 @@
 package usercomputeapi;
 
+import java.util.ArrayList;
+
 import java.util.List;
 
 import computeengineapi.ComputeEngineAPI;
-import computeengineapi.ComputeEngineImpl;
 import storagecomputeapi.StorageComputeAPI;
 import storagecomputeapi.StorageResponse;
 
@@ -14,34 +15,35 @@ public class UserComputeImpl implements UserComputeAPI {
 	public UserComputeImpl(StorageComputeAPI storage, ComputeEngineAPI engine) {
 		this.storage = storage;
 		this.engine = engine;
+		
 	}
 
 	@Override
 	public ComputeResponse computeSumOfPrimes(ComputeRequest request) {
 
 //		check if empty
-		if(request == null || request.getSource() == null) {
+		if (request == null || request.getSource() == null) {
 			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
 		}
-
-//		read from storage
-		List<Integer> inputNum = storage.readInput();
-		if(inputNum == null || inputNum.isEmpty()) {
-			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
-		}
-
-//		Pass the integers to the compute component
-		int sum = engine.computeSum(inputNum);
-
-//		write result to storage
-		StorageResponse response = storage.writeOutput(List.of(sum));
-		if(!response.isSuccess()) {
-			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
-		}
-
-//		return success response
+		
+		int number = request.getSource().getLimit();
+		int sum = engine.computeSum(number);
+		
 		return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);
 	}
+	
+	public void processFile(String inputPath, String outputPath) {
+		List<Integer> input = storage.readInput(inputPath);
+		List<Integer> result = new ArrayList<>(); 
+		
+		for(Integer number : input) {
+			int sum = engine.computeSum(number);
+			result.add(sum);
+		}
+		
+		StorageResponse response = storage.writeOutput(result, outputPath);
+		if (!response.isSuccess()) {
+			System.err.println("Error writing output: " + response.getMessage());
+		}
+	}
 }
-
-

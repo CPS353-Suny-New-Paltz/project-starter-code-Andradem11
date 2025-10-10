@@ -15,12 +15,12 @@ public class TestDataStore implements StorageComputeAPI {
     }
 
     @Override
-    public List<Integer> readInput() {
+    public List<Integer> readInput(String inputPath) {
         return input.getInput();
     }
     
     @Override
-    public StorageResponse writeOutput(List<Integer> data) {
+    public StorageResponse writeOutput(List<Integer> data, String outputPath) {
         if (data == null || data.isEmpty()) {
             return new StorageResponse(StorageResponse.Status.FAIL, "No data to write");
         }

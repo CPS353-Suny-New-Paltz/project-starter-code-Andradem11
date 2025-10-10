@@ -1,22 +1,19 @@
 package computeengineapi;
-import java.util.List;
 
 public class ComputeEngineImpl implements ComputeEngineAPI{
 	@Override
-	public int computeSum(List<Integer> numbers) {
+	public int computeSum(int number) {
         int totalSum = 0;
 
-        if (numbers == null || numbers.isEmpty()) {
+        if (number < 2) {
             return 0;
         }
-        for (int n : numbers) {
+        for (int i = 2; i <= number; i++) {
             // Sum all prime numbers ≤ n
-            for (int i = 2; i <= n; i++) {
                 if (isPrime(i)) {
                     totalSum += i;
                 }
             }
-        }
         return totalSum;
     }
 	private boolean isPrime(int n) {
@@ -33,4 +30,3 @@ public class ComputeEngineImpl implements ComputeEngineAPI{
 		return true;
 	}
 }
-

@@ -34,7 +34,9 @@ public class StorageComputeImpl implements StorageComputeAPI {
 		try(FileWriter writer = new FileWriter(outputPath)){
 			for (int i = 0; i < data.size(); i++) {
 				writer.write(data.get(i).toString());
-				if(i < data.size() -1) writer.write(",");
+				if(i < data.size() -1) {
+					writer.write(",");
+				}
 			}
 			
 		} catch (IOException e) {

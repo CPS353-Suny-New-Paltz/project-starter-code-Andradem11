@@ -72,8 +72,9 @@ public class UserComputeImpl implements UserComputeAPI {
 		List<Integer> input;
         try {
             input = storage.readInput(inputPath);
-            if (input == null) {
-                input = new ArrayList<>();
+            if (input == null || input.isEmpty()) {
+                System.err.println("processFile: Input data is null or empty");
+                return;
             }
         } catch (Exception e) {
             System.err.println("processFile: error reading input: " + e.getMessage());

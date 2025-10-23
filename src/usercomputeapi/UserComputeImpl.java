@@ -72,8 +72,9 @@ public class UserComputeImpl implements UserComputeAPI {
 		List<Integer> input;
         try {
             input = storage.readInput(inputPath);
-            if (input == null) {
-                input = new ArrayList<>();
+            if (input == null || input.isEmpty()) {
+                System.err.println("processFile: Input data is null or empty");
+                return;
             }
         } catch (Exception e) {
             System.err.println("processFile: error reading input: " + e.getMessage());
@@ -93,8 +94,7 @@ public class UserComputeImpl implements UserComputeAPI {
         		System.err.println("processFile: Computation error for input " + number + ": " + e.getMessage());
                 result.add(0);
             }           
-        }
-        
+        }     
         try {
         	
             StorageResponse response = storage.writeOutput(result, outputPath);

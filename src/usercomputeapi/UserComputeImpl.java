@@ -94,21 +94,18 @@ public class UserComputeImpl implements UserComputeAPI {
         		System.err.println("processFile: Computation error for input " + number + ": " + e.getMessage());
                 result.add(0);
             }           
-        }
-        
-        StorageResponse response;
+        }     
         try {
-        	response = storage.writeOutput(result, outputPath);
+        	
+            StorageResponse response = storage.writeOutput(result, outputPath);
+            if (response == null) {
+                System.err.println("processFile: Storage returned null response when writing output.");
+            } else if (!response.isSuccess()) {
+                System.err.println("processFile: Storage reported failure: " + response.getMessage());
+            }
         } catch (Exception e) {
-        	System.err.println("processFile: Error writing output to storage: " + e.getMessage());
-        	return;         
-        }
-        if (response == null) {
-        	System.err.println("processFile: Storage returned null response when writing output.");
-            return;   
-        }
-        if (!response.isSuccess()) {
-        	System.err.println("processFile: storage reported failure: " + response.getMessage());            
+//          Catch unexpected exceptions from storage write
+            System.err.println("processFile: Error writing output: " + e.getMessage());
         }
     }
 }

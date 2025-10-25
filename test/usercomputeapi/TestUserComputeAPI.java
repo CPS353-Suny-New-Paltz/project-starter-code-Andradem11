@@ -46,7 +46,8 @@ public class TestUserComputeAPI {
         ComputeRequest request = new ComputeRequest(null, ";");
         ComputeResponse response = user.computeSumOfPrimes(request);
 
-        assertTrue(response.getStatus() == ComputeResponse.Status.FAIL);
+        assertEquals(ComputeResponse.Status.FAIL, response.getStatus(),
+                "Expected FAIL when DataSource is null");
 	}
 	
 //	validation test

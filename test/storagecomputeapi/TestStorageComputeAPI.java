@@ -77,7 +77,7 @@ public class TestStorageComputeAPI {
     	
 //    	empty path returns FAIL
     	StorageResponse r4 = storage.writeOutput(List.of(2,5,10), "  ");
-    	assertEquals(StorageResponse.Status.FAIL, r1.getStatus(),
+    	assertEquals(StorageResponse.Status.FAIL, r4.getStatus(),
     			"writeOutput(empty path) should return FAIL");
     }
 } 

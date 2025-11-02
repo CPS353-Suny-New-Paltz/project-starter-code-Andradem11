@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import computeengineapi.ComputeEngineAPI;
+import computeengineapi.ComputeEngineImpl;
 import storagecomputeapi.StorageComputeAPI;
 import storagecomputeapi.StorageResponse;
 import usercomputeapi.ComputeRequest;
@@ -24,12 +25,7 @@ public class ComputeEngineExceptionIntegrationTest {
 	
 	@Test
 	public void testExceptionHandling() {
-		ComputeEngineAPI engine = new ComputeEngineAPI() {
-			@Override
-			public int computeSum(int number) {
-				throw new RuntimeException("Compute failure");
-			}
-		};
+		ComputeEngineAPI engine = new ComputeEngineImpl();
 		
 //	    Storage setup that doesn't throw
 		StorageComputeAPI storage = new StorageComputeAPI() {
@@ -48,20 +44,35 @@ public class ComputeEngineExceptionIntegrationTest {
 //	    Real implementations UserCompuImpl
 		UserComputeAPI user = new UserComputeImpl(storage, engine);
 		
-//		validation request to check exception handling
-		ComputeRequest request = new ComputeRequest(new DataSource() {
+//		validation request to check FAIL exception handling
+		ComputeRequest requestFail = new ComputeRequest(new DataSource() {
 			@Override
 			public int getLimit() {
-				return 5;
+				return -5;
 			}
 		}, ";");
 		
+		ComputeResponse responseFail = user.computeSumOfPrimes(requestFail);
 		
-		ComputeResponse response = user.computeSumOfPrimes(request);
+		assertNotNull(responseFail);
+		assertEquals(ComputeResponse.Status.FAIL, responseFail.getStatus(),
+				"Negative input should return fail");
+		assertEquals(0, responseFail.getSum());
 		
-		assertNotNull(response);
-		assertEquals(ComputeResponse.Status.FAIL, response.getStatus());
-		assertEquals(0, response.getSum());
+//		validation request to check SUCCESS exception handling
+		ComputeRequest requestSuccess = new ComputeRequest(new DataSource() {
+			@Override
+			public int getLimit() {
+				return 10;
+			}
+		}, ";");
+		
+		ComputeResponse responseSuccess = user.computeSumOfPrimes(requestSuccess);
+		
+		assertNotNull(responseSuccess);
+		assertEquals(ComputeResponse.Status.SUCCESS, responseSuccess.getStatus(),
+				"Valid input should return success");
+		assertEquals(17, responseSuccess.getSum());
 		
 	}
 }

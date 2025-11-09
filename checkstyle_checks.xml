@@ -22,6 +22,12 @@
            default="checkstyle-suppressions.xml" />
     <property name="optional" value="true"/>
   </module>
+          <module name="OperatorWrap">
+  <property name="option" value="NL"/>
+  <property name="tokens"
+           value="LAMBDA"/>
+</module>
+
           <module name="LineLength">
     <property name="fileExtensions" value="java"/>
     <property name="max" value="300"/>

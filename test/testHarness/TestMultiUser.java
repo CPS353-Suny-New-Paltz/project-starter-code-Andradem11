@@ -1,8 +1,6 @@
 package testHarness;
 
-import computeengineapi.ComputeEngineAPI;
 import computeengineapi.ComputeEngineImpl;
-import storagecomputeapi.StorageComputeAPI;
 import storagecomputeapi.StorageComputeImpl;
 import usercomputeapi.UserComputeAPI;
 import usercomputeapi.UserComputeImpl;
@@ -12,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -63,16 +62,22 @@ public class TestMultiUser {
 			multiThreadedOut.deleteOnExit();
 			String multiThreadOutputPath = multiThreadedOut.getCanonicalPath();
 			TestUser testUser = testUsers.get(i);
-			results.add(threadPool.submit(() -> testUser.run(multiThreadOutputPath)));
+			results.add(threadPool.submit(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    testUser.run(multiThreadOutputPath);
+                    return null;
+                }
+            }));
 		}
 		
-		results.forEach(future -> {
-			try {
-				future.get();
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		});
+		for (Future<?> future : results) {
+            try {
+                future.get();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
 		
 		
 		// Check that the output is the same for multi-threaded and single-threaded

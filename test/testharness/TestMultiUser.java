@@ -1,4 +1,4 @@
-package testHarness;
+package testharness;
 
 import computeengineapi.ComputeEngineImpl;
 import storagecomputeapi.StorageComputeImpl;

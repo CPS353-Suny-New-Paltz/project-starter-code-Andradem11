@@ -1,4 +1,4 @@
-package testHarness;
+package testharness;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,7 +35,9 @@ public class TestUser {
 		
 		List<Integer> results = new ArrayList<>();
         for(Integer n: numbers) {
-        	if (n == null) continue;
+        	if (n == null) {
+        		continue;
+        	}
         	
         	DataSource source = new DataSource() {
                 @Override

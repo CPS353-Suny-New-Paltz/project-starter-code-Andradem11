@@ -18,7 +18,7 @@ public class TestUser {
 	private final UserComputeAPI coordinator;
 
 	public TestUser(UserComputeAPI coordinator) {
-		if(coordinator == null) {
+		if (coordinator == null) {
 			throw new IllegalArgumentException("UserComputeAPI cannot be null");
 		}
 		this.coordinator = coordinator;
@@ -34,7 +34,7 @@ public class TestUser {
 		List<Integer> numbers = new StorageComputeImpl().readInput(inputPath);
 		
 		List<Integer> results = new ArrayList<>();
-        for(Integer n: numbers) {
+        for (Integer n: numbers) {
         	if (n == null) {
         		continue;
         	}

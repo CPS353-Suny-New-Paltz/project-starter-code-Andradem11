@@ -37,7 +37,7 @@ public class TestMultiUser {
 		// that the user will make requests to
 		// Store it in the 'coordinator' instance variable
 	}
-	public void cleanup(List<Path> paths) {
+	private void cleanup(List<Path> paths) {
 		for (Path p : paths) {
 	        try {
 	            Files.deleteIfExists(p);

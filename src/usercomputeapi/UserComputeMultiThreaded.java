@@ -25,40 +25,42 @@ public class UserComputeMultiThreaded implements UserComputeAPI{
 	
 	@Override
 	public ComputeResponse computeSumOfPrimes(ComputeRequest request) {
-		// TODO Auto-generated method stub
 		return userCompute.computeSumOfPrimes(request);
 	}
 	
 	public List<ComputeResponse> computeMultiRequest(List<ComputeRequest> requests) {
 		if(requests == null || requests.isEmpty()) {
-			return new ArrayList<>();	
+			throw new IllegalArgumentException("Request list cannot be null or empty");
 		}
 		
 		ExecutorService executor = Executors.newFixedThreadPool(maxThreads);
 		List<Future<ComputeResponse>> futures = new ArrayList<>();
 		
 //		submit each request 
-		for (ComputeRequest request : requests) {
-			futures.add(executor.submit(new Callable<ComputeResponse>() {
-                @Override
-                public ComputeResponse call() {
-                    return userCompute.computeSumOfPrimes(request);
-                }
-            }));
+		try {
+			for (ComputeRequest request : requests) {
+				futures.add(executor.submit(new Callable<ComputeResponse>() {
+	                @Override
+	                public ComputeResponse call() {
+	                    return userCompute.computeSumOfPrimes(request);
+	                }
+	            }));
+			}
+			
+	//		Collect results
+			List<ComputeResponse> results = new ArrayList<>(requests.size());
+			for (Future<ComputeResponse> f : futures) {
+	            try {
+	                results.add(f.get());
+	            } catch (Exception e) {
+	                results.add(new ComputeResponse(0, ComputeResponse.Status.FAIL));
+	                System.err.println("Error during parallel computation: " + e.getMessage());
+	            }
+	        }
+	        return results;
+		} finally {
+//			Shutdown executor
+			executor.shutdown();
 		}
-		
-//		Collect results
-		List<ComputeResponse> results = new ArrayList<>();
-		for (Future<ComputeResponse> f : futures) {
-            try {
-                results.add(f.get());
-            } catch (Exception e) {
-                results.add(new ComputeResponse(0, ComputeResponse.Status.FAIL));
-                System.err.println("Error during parallel computation: " + e.getMessage());
-            }
-        }
-//		Shutdown executor
-		executor.shutdown();
-        return results;
 	}
 }

@@ -2,10 +2,13 @@ package testharness;
 
 import computeengineapi.ComputeEngineImpl;
 import storagecomputeapi.StorageComputeImpl;
+import usercomputeapi.ComputeRequest;
+import usercomputeapi.ComputeResponse;
+import usercomputeapi.DataSource;
 import usercomputeapi.UserComputeAPI;
 import usercomputeapi.UserComputeImpl;
+import usercomputeapi.UserComputeMultiThreaded;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,17 +27,24 @@ public class TestMultiUser {
 	
 	// TODO 1: change the type of this variable to the name you're using for your @NetworkAPI
 	// interface
-	private UserComputeAPI coordinator;
+	private UserComputeMultiThreaded coordinator;
 	
 	@BeforeEach
 	public void initializeComputeEngine() {
-		coordinator = new UserComputeImpl(new StorageComputeImpl(), new ComputeEngineImpl());
-		
+		UserComputeAPI singleThreaded = new UserComputeImpl(new StorageComputeImpl(), new ComputeEngineImpl());
+		coordinator = new UserComputeMultiThreaded(singleThreaded, 4);
 		//TODO 2: create an instance of the implementation of your @NetworkAPI; this is the component
 		// that the user will make requests to
 		// Store it in the 'coordinator' instance variable
 	}
-	public void cleanup() {
+	private void cleanup(List<Path> paths) {
+		for (Path p : paths) {
+	        try {
+	            Files.deleteIfExists(p);
+	        } catch (IOException e) {
+	            System.err.println("Failed to delete temporary file: " + p);
+	        }
+	    }
     }
 	@Test
 	public void compareMultiAndSingleThreaded() throws Exception {
@@ -76,7 +86,7 @@ public class TestMultiUser {
                 throw new RuntimeException(e);
             }
         }
-		
+		threadPool.shutdown();
 		
 		// Check that the output is the same for multi-threaded and single-threaded
 		List<String> singleThreaded = loadAllOutput(singleThreadFilePrefix);
@@ -84,12 +94,9 @@ public class TestMultiUser {
 		Assertions.assertEquals(singleThreaded, multiThreaded);
 		
 //		Clean up temp files
-        for (Path p : singleThreadFilePrefix) {
-        	Files.deleteIfExists(p);
-        }
-        for (Path p : multiThreadFilePrefix) {
-        	Files.deleteIfExists(p);
-        }
+		cleanup(singleThreadFilePrefix);
+        cleanup(multiThreadFilePrefix);
+		
 	}
 
 	private List<String> loadAllOutput(List<Path> paths) throws IOException {
@@ -104,5 +111,34 @@ public class TestMultiUser {
 //        List<String> requests = List.of("test1", "test2", "test3");
 //        List<String> results = UserComputeImpl.processFile(requests);
 //        Assertions.assertEquals(requests.size(), results.size());
+		
+//		creating sample compute requests
+		List<ComputeRequest> requests = new ArrayList<>();
+	    requests.add(new ComputeRequest(new DataSource() {
+	        @Override
+	        public int getLimit() {
+	            return 1;
+	        }
+	    }, ";"));
+	    requests.add(new ComputeRequest(new DataSource() {
+	        @Override
+	        public int getLimit() {
+	            return 10;
+	        }
+	    }, ";"));
+	    requests.add(new ComputeRequest(new DataSource() {
+	        @Override
+	        public int getLimit() {
+	            return 25;
+	        }
+	    }, ";"));
+	    
+//	    call multi request computation
+		List<ComputeResponse> results = coordinator.computeMultiRequest(requests);
+		
+		Assertions.assertEquals(requests.size(),results.size());
+		for (ComputeResponse r : results) {
+			Assertions.assertTrue(r.isSuccess());
+		}
     }
 }

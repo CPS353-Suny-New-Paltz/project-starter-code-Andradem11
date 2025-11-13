@@ -11,6 +11,9 @@ Example if the input number is 10: The system will find the prime numbers (2,3,5
 Multi-Threaded Implementation
 I added a multi-threaded version of the user compute class (UserComputeMultiThreaded, it uses a fixed thread pool created with Executors.newFixedThreadPool(maxThreads). It sets the threads to 4, gives good performance without using too many system resources, and allows several user requests to be processed at the same time. The executor is inside a try/finally block to ensure it's shut down properly.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package usercomputeapi;
 
@@ -9,14 +9,14 @@ service UserComputeAPI {
 
 // Request message
 message ComputeRequest {
-    optional int32 limit = 1;        // number to compute primes up to
-    optional string delimiter = 2;   // delimiter for output, optional
+    optional int32 limit = 1;        	// number to compute primes up to
+    optional string delimiter = 2;   	// delimiter for output, optional
 }
 
 // Response message
 message ComputeResponse {
-    int32 sum = 1;                   // sum of primes
-    bool success = 2;                // true if computation succeeded
-    string errorMessage = 3;         // error info if computation failed
+    optional int32 sum = 1;                   // sum of primes
+    optional bool success = 2;                // true if computation succeeded
+    optional string errorMessage = 3;         // error info if computation failed
 }
 

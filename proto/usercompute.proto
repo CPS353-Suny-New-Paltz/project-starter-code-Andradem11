@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package usercomputeapi;
 
-service UserComputeService {
+service UserComputeAPI {
     // RPC call for computing sum of primes
     rpc ComputeSumOfPrimes (ComputeRequest) returns (ComputeResponse);
 }

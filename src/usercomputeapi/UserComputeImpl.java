@@ -40,6 +40,9 @@ public class UserComputeImpl implements UserComputeAPI {
 			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
 		}
 		int number = request.getSource().getLimit();
+		if (number < 0) {
+	        return new ComputeResponse(0, ComputeResponse.Status.FAIL);
+	    }
 		
 		int sum;
 		try {

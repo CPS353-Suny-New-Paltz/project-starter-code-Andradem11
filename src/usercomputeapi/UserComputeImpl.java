@@ -43,6 +43,11 @@ public class UserComputeImpl implements UserComputeAPI {
 			int number = request.getSource().getLimit();
 			
 			int sum = engine.computeSum(number);
+			
+			if (number < 2) {
+	            return new ComputeResponse(0, ComputeResponse.Status.FAIL);
+	        }
+
             
 			return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);	
 		} catch (Exception e) {

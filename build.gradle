@@ -1,8 +1,10 @@
 plugins {
 	id 'com.google.protobuf' version '0.9.4'
 }
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
+
 def grpcVersion = '1.59.1'
 def protobufVersion = '3.25.1'
 def protocVersion = protobufVersion
@@ -16,8 +18,7 @@ protobuf {
 	}
 }
 
-
-eclipse.project.name = 'FillThisIn' 
+eclipse.project.name = 'Andradem11' 
 
 sourceSets {
 	main {
@@ -42,22 +43,20 @@ repositories {
 }
 
 dependencies {
-    testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
+  testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
 	testImplementation('org.mockito:mockito-core:5.10.0')
 	implementation('com.google.code.gson:gson:2.13.1')
-<<<<<<< Updated upstream
-=======
-    implementation 'fr.inria.gforge.spoon:spoon-core:11.2.0'
+  implementation 'fr.inria.gforge.spoon:spoon-core:11.2.0'
     
 	implementation "io.grpc:grpc-protobuf:${grpcVersion}"
 	implementation "io.grpc:grpc-services:${grpcVersion}"
 	implementation "io.grpc:grpc-stub:${grpcVersion}"
 	compileOnly "org.apache.tomcat:annotations-api:6.0.53"
+  
 	runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+  
 	testImplementation "io.grpc:grpc-testing:${grpcVersion}"
 	testImplementation "io.grpc:grpc-inprocess:${grpcVersion}"
-     	
->>>>>>> Stashed changes
 }
 
 test {

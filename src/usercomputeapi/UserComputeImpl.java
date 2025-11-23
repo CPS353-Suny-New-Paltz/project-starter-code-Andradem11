@@ -43,12 +43,12 @@ public class UserComputeImpl implements UserComputeAPI {
 		
 		int sum;
 		try {
-			sum = engine.computeSum(number); 	
+			sum = engine.computeSum(number); 
+			return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);
 		} catch (Exception e) {
 			System.err.println("Error during computation: " + e.getMessage());
 			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
 		}
-		return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);
 		
 	}
 	

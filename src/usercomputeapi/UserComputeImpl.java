@@ -39,21 +39,16 @@ public class UserComputeImpl implements UserComputeAPI {
 		if (request == null || request.getSource() == null) {
 			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
 		}
+		int number = request.getSource().getLimit();
+		
+		int sum;
 		try {
-			int number = request.getSource().getLimit();
-			
-			int sum = engine.computeSum(number);
-			
-			if (number < 2) {
-	            return new ComputeResponse(0, ComputeResponse.Status.FAIL);
-	        }
-
-            
-			return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);	
+			sum = engine.computeSum(number); 	
 		} catch (Exception e) {
 			System.err.println("Error during computation: " + e.getMessage());
 			return new ComputeResponse(0, ComputeResponse.Status.FAIL);
 		}
+		return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);
 		
 	}
 	

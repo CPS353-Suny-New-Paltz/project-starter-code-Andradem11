@@ -5,4 +5,6 @@ public interface UserComputeAPI {
 //	request to compute sum of primes
 	ComputeResponse computeSumOfPrimes(ComputeRequest request);
 	
+	void processFile(String inputPath, String outputPath);
+	
 }

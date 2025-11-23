@@ -25,54 +25,59 @@ public class ComputeEngineExceptionIntegrationTest {
 	
 	@Test
 	public void testExceptionHandling() {
-		ComputeEngineAPI engine = new ComputeEngineImpl();
-		
-//	    Storage setup that doesn't throw
-		StorageComputeAPI storage = new StorageComputeAPI() {
-			@Override
-			public List<Integer> readInput(String inputPath) {
-				return List.of(5);				
-			}
+//		Engine that fails on input 42
+        ComputeEngineAPI failingEngine = new ComputeEngineAPI() {
+            @Override
+            public int computeSum(int number) {
+                if (number == 42) {
+                    throw new RuntimeException("Simulated engine failure");
+                }
+                return new ComputeEngineImpl().computeSum(number);
+            }
+        };
 
-			@Override
-			public StorageResponse writeOutput(List<Integer> data, String outputPath) {
-				return new StorageResponse(StorageResponse.Status.SUCCESS, "Successfully");
-			}
-			
-		};
-		
-//	    Real implementations UserCompuImpl
-		UserComputeAPI user = new UserComputeImpl(storage, engine);
-		
-//		validation request to check FAIL exception handling
-		ComputeRequest requestFail = new ComputeRequest(new DataSource() {
-			@Override
-			public int getLimit() {
-				return -5;
-			}
-		}, ";");
-		
-		ComputeResponse responseFail = user.computeSumOfPrimes(requestFail);
-		
-		assertNotNull(responseFail);
-		assertEquals(ComputeResponse.Status.FAIL, responseFail.getStatus(),
-				"Negative input should return fail");
-		assertEquals(0, responseFail.getSum());
-		
-//		validation request to check SUCCESS exception handling
-		ComputeRequest requestSuccess = new ComputeRequest(new DataSource() {
-			@Override
-			public int getLimit() {
-				return 10;
-			}
-		}, ";");
-		
-		ComputeResponse responseSuccess = user.computeSumOfPrimes(requestSuccess);
-		
-		assertNotNull(responseSuccess);
-		assertEquals(ComputeResponse.Status.SUCCESS, responseSuccess.getStatus(),
-				"Valid input should return success");
-		assertEquals(17, responseSuccess.getSum());
-		
-	}
+//      Storage setup that doesn't throw
+        StorageComputeAPI storage = new StorageComputeAPI() {
+            @Override
+            public List<Integer> readInput(String inputPath) {
+                return List.of(42, 10);
+            }
+
+            @Override
+            public StorageResponse writeOutput(List<Integer> data, String outputPath) {
+                return new StorageResponse(StorageResponse.Status.SUCCESS, "Successfully");
+            }
+        };
+
+//      Real implementation
+        UserComputeAPI user = new UserComputeImpl(storage, failingEngine);
+
+//      Test failing computation
+        ComputeRequest requestFail = new ComputeRequest(new DataSource() {
+            @Override
+            public int getLimit() {
+                return 42;
+            }
+        }, ";");
+
+        ComputeResponse responseFail = user.computeSumOfPrimes(requestFail);
+        assertNotNull(responseFail);
+        assertEquals(ComputeResponse.Status.FAIL, responseFail.getStatus(),
+                "Engine exception should propagate as FAIL");
+        assertEquals(0, responseFail.getSum());
+
+//      Test success computation
+        ComputeRequest requestSuccess = new ComputeRequest(new DataSource() {
+            @Override
+            public int getLimit() {
+                return 10;
+            }
+        }, ";");
+
+        ComputeResponse responseSuccess = user.computeSumOfPrimes(requestSuccess);
+        assertNotNull(responseSuccess);
+        assertEquals(ComputeResponse.Status.SUCCESS, responseSuccess.getStatus(),
+                "Valid input should return success");
+        assertEquals(17, responseSuccess.getSum());
+    }
 }

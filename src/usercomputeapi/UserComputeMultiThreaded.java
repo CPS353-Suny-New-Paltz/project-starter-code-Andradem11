@@ -27,6 +27,10 @@ public class UserComputeMultiThreaded implements UserComputeAPI{
 	public ComputeResponse computeSumOfPrimes(ComputeRequest request) {
 		return userCompute.computeSumOfPrimes(request);
 	}
+	@Override
+    public void processFile(String inputPath, String outputPath) {
+        userCompute.processFile(inputPath, outputPath);
+    }
 	
 	public List<ComputeResponse> computeMultiRequest(List<ComputeRequest> requests) {
 		if(requests == null || requests.isEmpty()) {

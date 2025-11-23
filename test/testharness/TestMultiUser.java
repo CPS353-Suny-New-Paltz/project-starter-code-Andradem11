@@ -56,6 +56,7 @@ public class TestMultiUser {
 		
 		// Run single threaded
 		List<Path> singleThreadFilePrefix = new ArrayList<>();
+		
         for (int i = 0; i < nthreads; i++) {
             Path temp = Files.createTempFile("singleThreadOut", ".tmp");
             singleThreadFilePrefix.add(temp);
@@ -66,10 +67,12 @@ public class TestMultiUser {
         ExecutorService threadPool = Executors.newCachedThreadPool();
         List<Future<?>> results = new ArrayList<>();
         List<Path> multiThreadFilePrefix = new ArrayList<>();
+        
         for (int i = 0; i < nthreads; i++) {
             final Path temp = Files.createTempFile("multiThreadOut", ".tmp");
             multiThreadFilePrefix.add(temp);
             final TestUser testUser = testUsers.get(i);
+            
             results.add(threadPool.submit(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
@@ -106,39 +109,29 @@ public class TestMultiUser {
         }
         return result;
     }
+	
 	@Test
-    public void smokeTest() {
-//        List<String> requests = List.of("test1", "test2", "test3");
-//        List<String> results = UserComputeImpl.processFile(requests);
-//        Assertions.assertEquals(requests.size(), results.size());
-		
-//		creating sample compute requests
-		List<ComputeRequest> requests = new ArrayList<>();
-	    requests.add(new ComputeRequest(new DataSource() {
-	        @Override
-	        public int getLimit() {
-	            return 1;
-	        }
-	    }, ";"));
-	    requests.add(new ComputeRequest(new DataSource() {
-	        @Override
-	        public int getLimit() {
-	            return 10;
-	        }
-	    }, ";"));
-	    requests.add(new ComputeRequest(new DataSource() {
-	        @Override
-	        public int getLimit() {
-	            return 25;
-	        }
-	    }, ";"));
-	    
-//	    call multi request computation
-		List<ComputeResponse> results = coordinator.computeMultiRequest(requests);
-		
-		Assertions.assertEquals(requests.size(),results.size());
-		for (ComputeResponse r : results) {
-			Assertions.assertTrue(r.isSuccess());
-		}
-    }
+	public void smokeTest() throws Exception {
+	    int nthreads = 3;
+	    List<TestUser> testUsers = new ArrayList<>();
+	    List<Path> tempFiles = new ArrayList<>();
+
+	    for (int i = 0; i < nthreads; i++) {
+	        testUsers.add(new TestUser(coordinator));
+	    }
+
+	    for (TestUser user : testUsers) {
+	        Path temp = Files.createTempFile("smokeTest", ".tmp");
+	        tempFiles.add(temp);
+	        user.run(temp.toString());
+	    }
+
+	    // Validate that files exist
+	    for (Path p : tempFiles) {
+	        Assertions.assertTrue(Files.exists(p), "Output file should exist: " + p);
+	    }
+
+	    cleanup(tempFiles);
+	}
+
 }

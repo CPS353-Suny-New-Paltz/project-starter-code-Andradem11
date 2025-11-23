@@ -37,10 +37,7 @@ public class ComputeEngineIntegrationTest {
 	        };
 	        ComputeRequest request = new ComputeRequest(source, ";");
 	        ComputeResponse response = userCompute.computeSumOfPrimes(request);
-
-	        if (response.isSuccess()) {
-	            dataStore.writeOutput(List.of(response.getSum()), null);
-	        }
+	        dataStore.writeOutput(Arrays.asList(response.getSum()), null);
 	    }
 
 	    List<String> expected = Arrays.asList("0", "17", "100");

@@ -21,11 +21,27 @@ repositories {
 }
 
 dependencies {
+<<<<<<< Updated upstream
     testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
+=======
+  testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
+  
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-engine:1.10.2'
+    testImplementation 'org.eclipse.jdt:org.eclipse.jdt.junit5.runtime:1.1.100'
+  
+>>>>>>> Stashed changes
 	testImplementation('org.mockito:mockito-core:5.10.0')
 	implementation('com.google.code.gson:gson:2.13.1')
 }
 
 test {
     useJUnitPlatform()
+<<<<<<< Updated upstream
 }
+=======
+    
+    jvmArgs '--add-opens', 'java.base/java.util=ALL-UNNAMED'
+}
+>>>>>>> Stashed changes

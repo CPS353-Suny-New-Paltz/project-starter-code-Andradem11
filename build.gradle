@@ -1,47 +1,72 @@
+plugins {
+	  id 'com.google.protobuf' version '0.9.4'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-eclipse.project.name = 'FillThisIn' 
+def grpcVersion = '1.59.1'
+def protobufVersion = '3.25.1'
+def protocVersion = protobufVersion
+protobuf {
+	  protoc { artifact = "com.google.protobuf:protoc:${protocVersion}" }
+	  plugins {
+	  grpc { artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}" }
+	  }
+	  generateProtoTasks {
+	  all()*.plugins { grpc {} }
+	  }
+}
+
+eclipse.project.name = 'Andradem11' 
 
 sourceSets {
-	main {
-	  java {
-		srcDirs = ['src']
+	  main {
+		    proto {
+			      srcDirs = ['protobuf']
+		    }
+		    java {
+			      srcDirs = ['src',
+					        'build/generated/source/proto/main/grpc',
+					        'build/generated/source/proto/main/java']
+		    }
 	  }
-	}
-	test {
-	  java {
-	     srcDirs = ['test']
+	  test {
+	      java {
+	          srcDirs = ['test']
+	      }
 	  }
-	 }
 }
 
 repositories {
-    mavenCentral()
+        mavenCentral()
 }
 
 dependencies {
-<<<<<<< Updated upstream
     testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
-=======
-  testImplementation('org.junit.jupiter:junit-jupiter:5.10.2')
   
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-engine:1.10.2'
     testImplementation 'org.eclipse.jdt:org.eclipse.jdt.junit5.runtime:1.1.100'
   
->>>>>>> Stashed changes
-	testImplementation('org.mockito:mockito-core:5.10.0')
-	implementation('com.google.code.gson:gson:2.13.1')
+	  testImplementation('org.mockito:mockito-core:5.10.0')
+	  implementation('com.google.code.gson:gson:2.13.1')
+    implementation 'fr.inria.gforge.spoon:spoon-core:11.2.0'
+    
+	  implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+	  implementation "io.grpc:grpc-services:${grpcVersion}"
+	  implementation "io.grpc:grpc-stub:${grpcVersion}"
+	  compileOnly "org.apache.tomcat:annotations-api:6.0.53"
+  
+	  runtimeOnly "io.grpc:grpc-netty-shaded:${grpcVersion}"
+  
+	  testImplementation "io.grpc:grpc-testing:${grpcVersion}"
+	  testImplementation "io.grpc:grpc-inprocess:${grpcVersion}"
 }
 
 test {
     useJUnitPlatform()
-<<<<<<< Updated upstream
-}
-=======
     
     jvmArgs '--add-opens', 'java.base/java.util=ALL-UNNAMED'
 }
->>>>>>> Stashed changes

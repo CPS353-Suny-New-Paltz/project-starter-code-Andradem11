@@ -24,4 +24,8 @@ public class ComputeEngineMain {
 
         System.out.println("Compute Engine finished processing " + inputFile + " -> " + outputFile);
     }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

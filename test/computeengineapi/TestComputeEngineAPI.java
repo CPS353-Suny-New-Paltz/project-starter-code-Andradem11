@@ -30,5 +30,4 @@ public class TestComputeEngineAPI {
 	    int result = engine.computeSum(10);
 	    assertEquals(17, result);
 	}
-	
 }

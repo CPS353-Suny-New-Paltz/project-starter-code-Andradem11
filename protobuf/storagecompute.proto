@@ -1,0 +1,39 @@
+syntax = "proto2";
+
+package storagecompute;
+
+service StorageComputeService {
+    // Read input from a file
+    rpc ReadInput (ReadInputRequest) returns (ReadInputResponse);
+    
+    // Write output to a file
+    rpc WriteOutput (WriteOutputRequest) returns (WriteOutputResponse);
+}
+
+// Request to read input
+message ReadInputRequest {
+    required string input_path = 1;
+}
+
+// Response for read input
+message ReadInputResponse {
+    repeated int32 numbers = 1;
+    optional string message = 2;
+}
+
+// Request to write output
+message WriteOutputRequest {
+    repeated int32 numbers = 1;
+    required string output_path = 2;
+}
+
+// Response for write output
+message WriteOutputResponse {
+    enum Status {
+        SUCCESS = 0;
+        FAIL = 1;
+    }
+    required Status status = 1;
+    optional string message = 2;
+}
+

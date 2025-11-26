@@ -24,4 +24,10 @@ public class TestComputeEngineAPI {
 		
 		assertEquals(0, result, "No numbers less than 2 should be counted");
 	}
+	@Test
+	public void smokeTestFastComputeEngine() {
+	    ComputeEngineAPI engine = new ComputeEngineFastImpl();
+	    int result = engine.computeSum(10);
+	    assertEquals(17, result);
+	}
 }

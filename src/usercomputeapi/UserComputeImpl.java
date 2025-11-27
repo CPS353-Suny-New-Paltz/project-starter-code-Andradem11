@@ -17,43 +17,43 @@ public class UserComputeImpl implements UserComputeAPI {
      *  IllegalArgumentException is thrown
      */
     public UserComputeImpl(StorageComputeAPI storage, ComputeEngineAPI engine) {
-        if ( storage == null) {
+        if (storage == null) {
             throw new IllegalArgumentException("StorageComputeAPI cannot be null");
         }
-        if ( engine == null) {
+        if (engine == null) {
             throw new IllegalArgumentException("ComputeEngineAPI cannot be null");
         }
         this.storage = storage;
-        this.engine = engine;    
+        this.engine = engine;
     }
-    
+
     /**
      * validation:
      * -Request and data cannot be null.
      * returns FAIL response
      */
-
     @Override
     public ComputeResponse computeSumOfPrimes(ComputeRequest request) {
+    	// avoid null pointers early
         if (request == null || request.getSource() == null) {
             return new ComputeResponse(0, ComputeResponse.Status.FAIL);
         }
+
         int number = request.getSource().getLimit();
         if (number < 0) {
             return new ComputeResponse(0, ComputeResponse.Status.FAIL);
         }
-        
-        int sum;
+
         try {
-            sum = engine.computeSum(number); 
+        	// let compute engine handle the work
+            int sum = engine.computeSum(number);
             return new ComputeResponse(sum, ComputeResponse.Status.SUCCESS);
         } catch (Exception e) {
             System.err.println("Error during computation: " + e.getMessage());
             return new ComputeResponse(0, ComputeResponse.Status.FAIL);
         }
-        
     }
-    
+
     /**
      * validation:
      * inputPath and outputPath cannot be empty.
@@ -61,17 +61,19 @@ public class UserComputeImpl implements UserComputeAPI {
      */
     @Override
     public void processFile(String inputPath, String outputPath) {
+    	 // quick checks so we don't even try to read/write bad files
         if (inputPath == null || inputPath.isBlank()) {
             System.err.println("processFile: Input file path cannot be empty.");
             return;
         }
-        if (outputPath == null || outputPath.isBlank() ) {
+        if (outputPath == null || outputPath.isBlank()) {
             System.err.println("processFile: Output file cannot be empty.");
             return;
         }
-        
+
         List<Integer> input;
         try {
+        	// try reading file from storage layer
             input = storage.readInput(inputPath);
             if (input == null || input.isEmpty()) {
                 System.err.println("processFile: Input data is null or empty");
@@ -81,29 +83,26 @@ public class UserComputeImpl implements UserComputeAPI {
             System.err.println("processFile: error reading input: " + e.getMessage());
             return;
         }
-        
+
         List<Integer> result = new ArrayList<>();
         for (final Integer number : input) {
+        	// skip bad values but keep index alignment by pushing 0
             if (number == null || number < 0) {
                 System.err.println("processFile: Skipping invalid input value: " + number);
                 result.add(0);
                 continue;
             }
 
-//          Build ComputeRequest and call computeSumOfPrimes to use common logic
-            ComputeRequest req = new ComputeRequest(new DataSource() {
-                @Override
-                public int getLimit() {
-                    return number;
-                }
-            }, ";");
+            // Build ComputeRequest and call computeSumOfPrimes to use common logic
+            ComputeRequest req = new ComputeRequest(() -> number, ";");
 
             ComputeResponse resp = computeSumOfPrimes(req);
-//          Always add the sum, even if FAIL (sum will be 0)
+            // Always add the sum, even if FAIL (sum will be 0)
             result.add(resp.getSum());
-        }     
+        }
+
         try {
-            
+        	// write computed values back out
             StorageResponse response = storage.writeOutput(result, outputPath);
             if (response == null) {
                 System.err.println("processFile: Storage returned null response when writing output.");
@@ -111,8 +110,9 @@ public class UserComputeImpl implements UserComputeAPI {
                 System.err.println("processFile: Storage reported failure: " + response.getMessage());
             }
         } catch (Exception e) {
-//          Catch unexpected exceptions from storage write
+        	// catch unexpected stuff from storage write
             System.err.println("processFile: Error writing output: " + e.getMessage());
         }
     }
 }
+

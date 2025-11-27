@@ -34,4 +34,3 @@ public class UserComputeAPIPrototype {
         return results;
     }
 }
-

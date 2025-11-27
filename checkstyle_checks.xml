@@ -54,7 +54,7 @@
     </module>
     <module name="NeedBraces">
       <property name="tokens"
-               value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE"/>
+               value="LITERAL_DO, LITERAL_FOR, LITERAL_WHILE"/>
     </module>
     <module name="LeftCurly">
       <property name="tokens"
@@ -114,18 +114,6 @@
       <message key="name.invalidPattern"
              value="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
     </module>
-
-    <module name="WhitespaceAround">
-    <property name="tokens"
-              value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN,
-                     BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT,
-                     LAND, LAMBDA, LE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN,
-                     NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL, SLIST, SL_ASSIGN, SR,
-                     SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>
-    <property name="ignoreLambdas" value="true"/>
-    </module>
-
-        
     <module name="CatchParameterName">
       <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
       <message key="name.invalidPattern"

@@ -52,13 +52,10 @@
       <property name="tokens"
                value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
     </module>
-            
     <module name="NeedBraces">
-    <property name="tokens"
-             value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE, LAMBDA"/>
-    <property name="allowSingleLineStatement" value="true"/>
+      <property name="tokens"
+               value="LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE"/>
     </module>
-
     <module name="LeftCurly">
       <property name="tokens"
                value="ANNOTATION_DEF, CLASS_DEF, CTOR_DEF, ENUM_CONSTANT_DEF, ENUM_DEF,
@@ -117,6 +114,16 @@
       <message key="name.invalidPattern"
              value="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
     </module>
+
+    <module name="WhitespaceAround">
+    <property name="tokens"
+              value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR,
+                     BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT, LAND,
+                     LAMBDA, LE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN,
+                     NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL, SLIST, SL_ASSIGN, SR,
+                     SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>
+    </module>
+        
     <module name="CatchParameterName">
       <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
       <message key="name.invalidPattern"

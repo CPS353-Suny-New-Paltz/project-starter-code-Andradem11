@@ -128,13 +128,6 @@
                   SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>
     <property name="ignoreEmptyConstructors" value="true"/>
     </module>
-    <module name="OperatorWrap">
-    <property name="option" value="NL"/>
-    <property name="tokens"
-           value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF,
-                  LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, COLON, SL, SR, STAR, METHOD_REF,
-                  TYPE_EXTENSION_AND"/>
-    </module>
             
     <module name="CatchParameterName">
       <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>

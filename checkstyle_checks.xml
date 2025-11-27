@@ -126,6 +126,7 @@
                   LAMBDA, LE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN,
                   NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL, SLIST, SL_ASSIGN, SR,
                   SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>
+    <property name="ignoreEmptyConstructors" value="true"/>
     </module>
     <module name="OperatorWrap">
     <property name="option" value="NL"/>

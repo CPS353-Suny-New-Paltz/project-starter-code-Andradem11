@@ -1,9 +1,11 @@
 package usercomputeapi.grpcserver;
 
 import io.grpc.Server;
+
 import io.grpc.ServerBuilder;
 import usercomputeapi.UserComputeImpl;
-import computeengineapi.ComputeEngineImpl;
+import computeengineapi.ComputeEngineAPI;
+import computeengineapi.ComputeEngineFastImpl;
 import storagecomputeapi.grpcclient.StorageComputeGrpcClient;
 
 public class UserComputeServerMain {
@@ -19,7 +21,7 @@ public class UserComputeServerMain {
         StorageComputeGrpcClient storageClient = new StorageComputeGrpcClient(storageHost, storagePort);
 
         // create compute engine
-        ComputeEngineImpl engine = new ComputeEngineImpl();
+        ComputeEngineAPI engine = new ComputeEngineFastImpl();
 
         // create user compute implementation
         UserComputeImpl userCompute = new UserComputeImpl(storageClient, engine);

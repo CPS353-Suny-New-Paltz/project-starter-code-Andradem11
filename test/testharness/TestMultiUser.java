@@ -23,36 +23,28 @@ public class TestMultiUser {
     private UserComputeMultiThreaded coordinator;
 
     @BeforeEach
-    public void initializeComputeEngine() 
-    {
+    public void initializeComputeEngine() {
         UserComputeAPI singleThreaded = new usercomputeapi.UserComputeImpl(
             new StorageComputeImpl(), new ComputeEngineImpl()
         );
         coordinator = new UserComputeMultiThreaded(singleThreaded, 4);
     }
 
-    private void cleanup(List<Path> paths) 
-    {
-        for (Path p : paths) 
-        {
-            try 
-            {
+    private void cleanup(List<Path> paths) {
+        for (Path p : paths) {
+            try {
                 Files.deleteIfExists(p);
-            } 
-            catch (IOException e) 
-            {
+            } catch (IOException e) {
                 System.err.println("Failed to delete temporary file: " + p);
             }
         }
     }
 
     @Test
-    public void compareMultiAndSingleThreaded() throws Exception 
-    {
+    public void compareMultiAndSingleThreaded() throws Exception {
         int nthreads = 4;
         List<TestUser> testUsers = new ArrayList<>();
-        for (int i = 0; i < nthreads; i++) 
-        {
+        for (int i = 0; i < nthreads; i++) {
             testUsers.add(new TestUser(coordinator));
         }
 
@@ -64,8 +56,7 @@ public class TestMultiUser {
         );
 
         List<Path> singleThreadFiles = new ArrayList<>();
-        for (int i = 0; i < nthreads; i++) 
-        {
+        for (int i = 0; i < nthreads; i++) {
             Path tempOut = Files.createTempFile("singleThreadOut", ".tmp");
             singleThreadFiles.add(tempOut);
             testUsers.get(i).run(inputs.get(i), tempOut.toString());
@@ -75,33 +66,26 @@ public class TestMultiUser {
         List<Path> multiThreadFiles = new ArrayList<>();
         List<Future<?>> futures = new ArrayList<>();
 
-        for (int i = 0; i < nthreads; i++) 
-        {
+        for (int i = 0; i < nthreads; i++) {
             final Path tempOut = Files.createTempFile("multiThreadOut", ".tmp");
             multiThreadFiles.add(tempOut);
             final TestUser user = testUsers.get(i);
             final List<Integer> userInput = inputs.get(i);
 
-            futures.add(
-                threadPool.submit(
-                    () -> 
-                    {
-                        user.run(userInput, tempOut.toString());
-                        return null;
-                    }
-                )
-            );
+            futures.add(threadPool.submit(() -> {
+                user.run(userInput, tempOut.toString());
+                return null;
+            }));
         }
 
-        for (Future<?> f : futures) 
-        {
+        for (Future<?> f : futures) {
             f.get();
         }
         threadPool.shutdown();
 
         List<String> singleThreaded = loadAllOutput(singleThreadFiles);
         List<String> multiThreaded = loadAllOutput(multiThreadFiles);
-        Assertions.assertEquals(singleThreaded, multiThreaded, 
+        Assertions.assertEquals(singleThreaded, multiThreaded,
             "Single-threaded vs Multi-threaded outputs differ"
         );
 
@@ -109,14 +93,11 @@ public class TestMultiUser {
         cleanup(multiThreadFiles);
     }
 
-    private List<String> loadAllOutput(List<Path> paths) throws IOException 
-    {
+    private List<String> loadAllOutput(List<Path> paths) throws IOException {
         List<String> result = new ArrayList<>();
-        for (Path p : paths) 
-        {
+        for (Path p : paths) {
             result.addAll(Files.readAllLines(p));
         }
         return result;
     }
-
 }

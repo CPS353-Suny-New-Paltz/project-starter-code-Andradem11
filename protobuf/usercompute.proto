@@ -1,0 +1,35 @@
+syntax = "proto2";
+
+package usercompute;
+
+// The service exposed to clients
+service UserComputeService {
+  	rpc ComputeSumOfPrimes (ComputeRequest) returns (ComputeResponse);
+	rpc ProcessFile (ProcessFileRequest) returns (ProcessFileResponse);
+}
+
+// Request to compute sum of primes
+	message ComputeRequest {
+  	required int32 number = 1;
+	optional string delimiter = 2;
+}
+
+// Response from compute
+message ComputeResponse {
+  	required bool success = 1;
+  	required int32 sum = 2;
+  	optional string message = 3;
+}
+
+// Request to process a file
+message ProcessFileRequest {
+  	required string inputPath = 1;
+  	required string outputPath = 2;
+  	optional string delimiter = 3;
+}
+
+// Response from file processing
+message ProcessFileResponse {
+  	required bool success = 1;
+  	optional string message = 2;
+}

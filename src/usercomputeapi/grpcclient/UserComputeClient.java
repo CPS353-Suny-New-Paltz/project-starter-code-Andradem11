@@ -14,8 +14,8 @@ public class UserComputeClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // input numbers separated by commas
-        System.out.println("Enter a list of numbers separated by commas:");
+        // File or list of numbers 
+        System.out.println("Enter either a file path or a list of numbers separated by commas:");
         String input = scanner.nextLine();
 
         // output file name in project folder

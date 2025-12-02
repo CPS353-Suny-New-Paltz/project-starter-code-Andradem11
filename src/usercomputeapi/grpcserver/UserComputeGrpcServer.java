@@ -23,6 +23,7 @@ public class UserComputeGrpcServer extends UserComputeServiceGrpc.UserComputeSer
     public void computeSumOfPrimes(Usercompute.ComputeRequest request,
                                    StreamObserver<Usercompute.ComputeResponse> responseObserver) {
 
+        // if client sends nothing, respond with an error
         if (request == null) {
             Usercompute.ComputeResponse errorResponse = Usercompute.ComputeResponse.newBuilder()
                     .setSum(0)
@@ -34,37 +35,32 @@ public class UserComputeGrpcServer extends UserComputeServiceGrpc.UserComputeSer
             return;
         }
 
+        // limit for the prime sum
         int number = request.getNumber();
-        String delimiter;
-        if (request.hasDelimiter()) {
-            delimiter = request.getDelimiter();
-        } else {
-            delimiter = ";";
-        }
 
-        DataSource source = new DataSource() {
-            @Override
-            public int getLimit() {
-                return number;
-            }
-        };
+        // use delimiter from client if provided, otherwise just default
+        String delimiter = request.hasDelimiter() ? request.getDelimiter() : ";";
 
+        // wraps the limit so our internal API can use it
+        DataSource source = () -> number;
+
+        // request for our internal compute API
         ComputeRequest computeRequest = new ComputeRequest(source, delimiter);
+
+        // gets the result from user compute logic
         ComputeResponse response = userCompute.computeSumOfPrimes(computeRequest);
 
-        String message;
-        if (response.isSuccess()) {
-            message = "Success";
-        } else {
-            message = "Fail";
-        }
+        // simple message for client based on result
+        String message = response.isSuccess() ? "Success" : "Fail";
 
+        // builds grpc response to send back
         Usercompute.ComputeResponse grpcResponse = Usercompute.ComputeResponse.newBuilder()
                 .setSum(response.getSum())
                 .setSuccess(response.isSuccess())
                 .setMessage(message)
                 .build();
 
+        // send and close
         responseObserver.onNext(grpcResponse);
         responseObserver.onCompleted();
     }
@@ -73,6 +69,7 @@ public class UserComputeGrpcServer extends UserComputeServiceGrpc.UserComputeSer
     public void processFile(Usercompute.ProcessFileRequest request,
                             StreamObserver<Usercompute.ProcessFileResponse> responseObserver) {
 
+        // same idea — if client sends nothing, fail early
         if (request == null) {
             Usercompute.ProcessFileResponse errorResponse = Usercompute.ProcessFileResponse.newBuilder()
                     .setSuccess(false)
@@ -83,33 +80,36 @@ public class UserComputeGrpcServer extends UserComputeServiceGrpc.UserComputeSer
             return;
         }
 
+        // paths for input and output
         String inputPath = request.getInputPath();
         String outputPath = request.getOutputPath();
-        String delimiter;
-        if (request.hasDelimiter()) {
-            delimiter = request.getDelimiter();
-        } else {
-            delimiter = ";";
-        }
+
+        // use client delimiter if provided, else just default
+        String delimiter = request.hasDelimiter() ? request.getDelimiter() : ";";
 
         Usercompute.ProcessFileResponse grpcResponse;
 
         try {
+            // call actual file logic
             userCompute.processFile(inputPath, outputPath);
+
+            // success message for the client
             grpcResponse = Usercompute.ProcessFileResponse.newBuilder()
                     .setSuccess(true)
                     .setMessage("File processed successfully")
                     .build();
+
         } catch (Exception e) {
+            // if file fails, return a clean error message
             grpcResponse = Usercompute.ProcessFileResponse.newBuilder()
                     .setSuccess(false)
                     .setMessage("Error: " + e.getMessage())
                     .build();
         }
 
+        // send and close
         responseObserver.onNext(grpcResponse);
         responseObserver.onCompleted();
     }
 }
-
 

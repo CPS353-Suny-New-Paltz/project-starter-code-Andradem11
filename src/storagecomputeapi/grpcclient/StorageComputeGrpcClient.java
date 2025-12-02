@@ -29,7 +29,7 @@ public class StorageComputeGrpcClient implements StorageComputeAPI {
     @Override
     public List<Integer> readInput(String inputPath) {
         if (inputPath == null || inputPath.trim().isEmpty()) {
-            return new ArrayList<Integer>();
+            return new ArrayList<>();
         }
 
         Storagecompute.ReadInputRequest request = Storagecompute.ReadInputRequest.newBuilder()
@@ -38,7 +38,7 @@ public class StorageComputeGrpcClient implements StorageComputeAPI {
 
         Storagecompute.ReadInputResponse response = blockingStub.readInput(request);
 
-        List<Integer> numbers = new ArrayList<Integer>();
+        List<Integer> numbers = new ArrayList<>();
         for (int i = 0; i < response.getNumbersCount(); i++) {
             numbers.add(response.getNumbers(i));
         }
@@ -62,17 +62,13 @@ public class StorageComputeGrpcClient implements StorageComputeAPI {
         Storagecompute.WriteOutputRequest request = requestBuilder.build();
         Storagecompute.WriteOutputResponse response = blockingStub.writeOutput(request);
 
-        StorageResponse.Status status;
-        if (response.getStatus() == Storagecompute.WriteOutputResponse.Status.SUCCESS) {
-            status = StorageResponse.Status.SUCCESS;
-        } else {
-            status = StorageResponse.Status.FAIL;
-        }
+        // map gRPC status to local status
+        StorageResponse.Status status = (response.getStatus() == Storagecompute.WriteOutputResponse.Status.SUCCESS)
+                ? StorageResponse.Status.SUCCESS
+                : StorageResponse.Status.FAIL;
 
-        String message = response.getMessage();
-        if (message == null) {
-            message = "";
-        }
+        // make message null-safe
+        String message = (response.getMessage() != null) ? response.getMessage() : "";
 
         return new StorageResponse(status, message);
     }

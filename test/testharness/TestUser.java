@@ -1,30 +1,36 @@
 package testharness;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import usercomputeapi.UserComputeAPI;
 
-
 public class TestUser {
-	
-	// TODO 3: change the type of this variable to the name you're using for your
-	// @NetworkAPI interface; also update the parameter passed to the constructor
-	private final UserComputeAPI coordinator;
 
-	public TestUser(UserComputeAPI coordinator) {
-		if (coordinator == null) {
-			throw new IllegalArgumentException("UserComputeAPI cannot be null");
-		}
-		this.coordinator = coordinator;
-	}
+    private final UserComputeAPI coordinator;
 
-	public void run(String outputPath) {
-		char delimiter = ';';
-		String inputPath = "test" + File.separatorChar + "testInputFile.test";
-		
-		// TODO 4: Call the appropriate method(s) on the coordinator to get it to 
-		// run the compute job specified by inputPath, outputPath, and delimiter
+    public TestUser(UserComputeAPI coordinator) {
+        if (coordinator == null) {
+            throw new IllegalArgumentException("UserComputeAPI cannot be null");
+        }
+        this.coordinator = coordinator;
+    }
 
-		coordinator.processFile(inputPath, outputPath);
-	}
+    public void run(List<Integer> numbers, String outputPath) {
+        try {
+            // Temporary input file
+            Path tempInput = Files.createTempFile("testInput", ".txt");
+            for (Integer n : numbers) {
+                Files.writeString(tempInput, n + "\n", java.nio.file.StandardOpenOption.APPEND);
+            }
 
+            // Delegate to coordinator (works for local or gRPC)
+            coordinator.processFile(tempInput.toString(), outputPath);
+
+            Files.deleteIfExists(tempInput);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create or delete temp input file", e);
+        }
+    }
 }

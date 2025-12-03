@@ -40,7 +40,7 @@ public class UserComputeImpl implements UserComputeAPI {
         }
 
         int number = request.getSource().getLimit();
-        if (number < 0) {
+        if (number < 2) {
             return new ComputeResponse(0, ComputeResponse.Status.FAIL);
         }
 
@@ -87,7 +87,7 @@ public class UserComputeImpl implements UserComputeAPI {
         List<Integer> result = new ArrayList<>();
         for (final Integer number : input) {
         	// skip bad values but keep index alignment by pushing 0
-            if (number == null || number < 0) {
+            if (number == null || number < 2) {
                 System.err.println("processFile: Skipping invalid input value: " + number);
                 result.add(0);
                 continue;

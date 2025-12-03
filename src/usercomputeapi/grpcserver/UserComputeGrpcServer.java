@@ -38,6 +38,20 @@ public class UserComputeGrpcServer extends UserComputeServiceGrpc.UserComputeSer
         // limit for the prime sum
         int number = request.getNumber();
 
+	    // treat < 2 as invalid
+        
+	    if (number < 2) {
+	    	
+	        Usercompute.ComputeResponse error = Usercompute.ComputeResponse.newBuilder()
+	                .setSum(0)
+	                .setSuccess(false)
+	                .setMessage("Invalid input: less than 2")
+	                .build();
+	        responseObserver.onNext(error);
+	        responseObserver.onCompleted();
+	        return;
+	    }
+	    
         // use delimiter from client if provided, otherwise just default
         String delimiter = request.hasDelimiter() ? request.getDelimiter() : ";";
 

@@ -7,6 +7,8 @@ import usercompute.Usercompute;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class UserComputeClient {
@@ -14,7 +16,7 @@ public class UserComputeClient {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // File or list of numbers 
+        // File or list of numbers
         System.out.println("Enter either a file path or a list of numbers separated by commas:");
         String input = scanner.nextLine();
 
@@ -37,59 +39,76 @@ public class UserComputeClient {
                 UserComputeServiceGrpc.newBlockingStub(channel);
 
         try {
-            // split numbers (supports single number too)
-            String[] numbers = input.contains(",")
-                    ? input.split(",")
-                    : new String[]{ input };
+            // Decide if the input is a real file path
+            boolean isFile = Files.exists(Path.of(input));
 
-            StringBuilder outputContent = new StringBuilder();
-
-            // process each input number
-            for (String num : numbers) {
-                String numStr = num.trim();
-                int number;
-
-                // parse input value
-                try {
-                    number = Integer.parseInt(numStr);
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid number input: " + numStr);
-                    outputContent.append("0").append(delimiter);
-                    continue;
-                }
-
-                // build request
-                Usercompute.ComputeRequest request = Usercompute.ComputeRequest.newBuilder()
-                        .setNumber(number)
+            if (isFile) {
+                // Use the processFile RPC, which calls UserComputeImpl.processFile
+                // and talks to the storage server via StorageComputeGrpcClient
+                Usercompute.ProcessFileRequest request = Usercompute.ProcessFileRequest.newBuilder()
+                        .setInputPath(input)
+                        .setOutputPath(outputPath)
                         .setDelimiter(delimiter)
                         .build();
 
-                // call gRPC service
-                Usercompute.ComputeResponse response = stub.computeSumOfPrimes(request);
+                Usercompute.ProcessFileResponse response = stub.processFile(request);
 
-                // add result
-                if (response.getSuccess()) {
-                    System.out.println("Number: " + number + " -> Sum of primes: " + response.getSum());
-                    outputContent.append(response.getSum()).append(delimiter);
-                } else {
-                    System.out.println("Computation failed for number: " + number);
-                    outputContent.append("0").append(delimiter);
+                System.out.println("Success: " + response.getSuccess());
+                System.out.println("Message: " + response.getMessage());
+
+            } else {
+                // Treat input as comma-separated numbers and call computeSumOfPrimes for each
+                String[] numbers = input.contains(",")
+                        ? input.split(",")
+                        : new String[]{ input };
+
+                StringBuilder outputContent = new StringBuilder();
+
+                // process each input number
+                for (String num : numbers) {
+                    String numStr = num.trim();
+                    int number;
+
+                    // parse input value
+                    try {
+                        number = Integer.parseInt(numStr);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid number input: " + numStr);
+                        outputContent.append("0").append(delimiter);
+                        continue;
+                    }
+
+                    // build gRPC request
+                    Usercompute.ComputeRequest request = Usercompute.ComputeRequest.newBuilder()
+                            .setNumber(number)
+                            .setDelimiter(delimiter)
+                            .build();
+
+                    Usercompute.ComputeResponse response = stub.computeSumOfPrimes(request);
+
+                    if (response.getSuccess()) {
+                        outputContent.append(response.getSum()).append(delimiter);
+                    } else {
+                        System.out.println("Computation failed for number: " + number
+                                + " (" + response.getMessage() + ")");
+                        outputContent.append("0").append(delimiter);
+                    }
                 }
-            }
 
-            // remove last delimiter
-            if (outputContent.length() > 0) {
-                outputContent.setLength(outputContent.length() - delimiter.length());
-            }
+                // remove last delimiter
+                if (outputContent.length() > 0) {
+                    outputContent.setLength(outputContent.length() - delimiter.length());
+                }
 
-            // write output file
-            try (FileWriter writer = new FileWriter(outputPath)) {
-                writer.write(outputContent.toString());
-            } catch (IOException e) {
-                System.out.println("Error writing output file: " + e.getMessage());
-            }
+                // write output file locally
+                try (FileWriter writer = new FileWriter(outputPath)) {
+                    writer.write(outputContent.toString());
+                } catch (IOException e) {
+                    System.out.println("Error writing output file: " + e.getMessage());
+                }
 
-            System.out.println("File processed successfully!");
+                System.out.println("File processed successfully!");
+            }
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -100,4 +119,3 @@ public class UserComputeClient {
         }
     }
 }
-
